@@ -233,4 +233,4 @@ class CallApp {
   }
 }
 
-export default CallApp;
+module.exports = CallApp;
