@@ -62,7 +62,9 @@ class CallApp {
    */
   pieceScheme(config) {
     const { path, param } = config;
-    const query = Object.keys(param).map(key => `${key}=${param[key]}`).join('&');
+    const query = typeof param !== 'undefined'
+      ? Object.keys(param).map(key => `${key}=${param[key]}`).join('&')
+      : '';
 
     return `${this.options.protocol}://${path}?${query}`;
   }
@@ -117,9 +119,11 @@ class CallApp {
   generateUniversalLink(config) {
     const { host, pathKey } = this.options.universal;
     const { path, param } = config;
-    const query = Object.keys(param).map(key => `${key}=${param[key]}`).join('&');
+    const query = typeof param !== 'undefined'
+      ? Object.keys(param).map(key => `${key}=${param[key]}`).join('&')
+      : '';
 
-    return `//${host}?${pathKey}=${path}&${query}`;
+    return `//${host}?${pathKey}=${path}${query ? '&' : ''}${query}`;
   }
 
   generateYingYongBao(config) {
