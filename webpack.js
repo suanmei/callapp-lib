@@ -1,4 +1,5 @@
 const path = require('path');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const EslintFormatter = require('eslint-friendly-formatter');
 
 function resolve(dir) {
@@ -28,4 +29,7 @@ module.exports = {
       },
     ],
   },
+  plugins: [
+    new CleanWebpackPlugin(['build']),
+  ],
 };
