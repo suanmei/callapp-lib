@@ -1,0 +1,44 @@
+{
+  "name": "callapp-lib",
+  "version": "1.0.0",
+  "description": "call native webview from webpage",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --config webpack.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/suanmei/callapp-lib.git"
+  },
+  "keywords": [
+    "callapp",
+    "schema",
+    "scheme",
+    "universalLink",
+    "intent",
+    "native",
+    "h5"
+  ],
+  "author": {
+    "name": "suanmei",
+    "email": "code_lee@sina.com",
+    "url": "https://suanmei.github.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/suanmei/callapp-lib/issues"
+  },
+  "homepage": "https://github.com/suanmei/callapp-lib#readme",
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^13.0.0",
+    "eslint-friendly-formatter": "^4.0.1",
+    "eslint-loader": "^2.0.0",
+    "eslint-plugin-import": "^2.13.0",
+    "webpack": "^4.16.1",
+    "webpack-cli": "^3.0.8"
+  }
+}
