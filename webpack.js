@@ -12,7 +12,7 @@ module.exports = {
   devtool: false,
   output: {
     filename: 'index.js',
-    path: path.resolve(__dirname, 'build'),
+    path: path.resolve(__dirname, 'dist'),
     library: 'callappLib',
     libraryTarget: 'umd',
   },

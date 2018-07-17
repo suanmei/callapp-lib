@@ -62,7 +62,7 @@ class CallApp {
    */
   pieceScheme(config) {
     const { path, param } = config;
-    const query = Object.keys(param).map(key => `${key}=${param[key]}`);
+    const query = Object.keys(param).map(key => `${key}=${param[key]}`).join('&');
 
     return `${this.options.protocol}://${path}?${query}`;
   }
@@ -97,7 +97,7 @@ class CallApp {
     const { outChain } = config;
     const { intent } = this.options;
     const urlPath = this.pieceScheme(config);
-    const intentParam = Object.keys(intent).map(key => `${key}=${intent[key]};`);
+    const intentParam = Object.keys(intent).map(key => `${key}=${intent[key]};`).join('');
 
     if (typeof outChain !== 'undefined' && !outChain) {
       const { path, key } = config.outChain;
@@ -117,7 +117,7 @@ class CallApp {
   generateUniversalLink(config) {
     const { host, pathKey } = this.options.universal;
     const { path, param } = config;
-    const query = Object.keys(param).map(key => `${key}=${param[key]}`);
+    const query = Object.keys(param).map(key => `${key}=${param[key]}`).join('&');
 
     return `//${host}?${pathKey}=${path}&${query}`;
   }
