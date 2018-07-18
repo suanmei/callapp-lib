@@ -155,4 +155,4 @@ class CallApp {
   }
 }
 
-module.exports = CallApp;
+export default CallApp;
