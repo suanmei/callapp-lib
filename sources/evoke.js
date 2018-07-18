@@ -1,4 +1,4 @@
-this.iframe = null;
+let iframe = null;
 
 /**
  * 通过 top.location.href 跳转
@@ -15,14 +15,14 @@ export function evokeByLocation(uri) {
  * @param {string}} [uri] - 需要打开的地址
  */
 export function evokeByIFrame(uri) {
-  if (!this.iframe) {
-    this.iframe = document.createElement('iframe');
-    this.iframe.frameborder = '0';
-    this.iframe.style.cssText = 'display:none;border:0;width:0;height:0;';
-    document.body.appendChild(this.iframe);
+  if (!iframe) {
+    iframe = document.createElement('iframe');
+    iframe.frameborder = '0';
+    iframe.style.cssText = 'display:none;border:0;width:0;height:0;';
+    document.body.appendChild(iframe);
   }
 
-  this.iframe.src = uri;
+  iframe.src = uri;
 }
 
 /**
