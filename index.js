@@ -173,7 +173,7 @@ class CallApp {
    * @memberof CallApp
    */
   static evokeByLocation(uri) {
-    window.location.href = uri;
+    window.top.location.href = uri;
   }
 
   fallToAppStore() {
@@ -220,7 +220,7 @@ class CallApp {
         this.evokeByIFrame(this.generateScheme(config));
         this.fallToAppStore();
       } else {
-        CallApp.evokeByTagA(this.generateUniversalLink(config));
+        CallApp.evokeByLocation(this.generateUniversalLink(config));
       }
       return;
     }
