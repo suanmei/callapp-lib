@@ -1,6 +1,6 @@
 {
   "name": "callapp-lib",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "call native webview from webpage",
   "main": "dist/index.js",
   "scripts": {
