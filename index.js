@@ -165,7 +165,7 @@ class CallApp {
 
     if (!checkOpenFall) return;
     if (typeof callback !== 'undefined') {
-      CallApp.fallToCustomCb();
+      CallApp.fallToCustomCb(callback);
       return;
     }
     checkOpenFall();
