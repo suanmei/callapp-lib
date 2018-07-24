@@ -121,6 +121,16 @@ class CallApp {
   }
 
   /**
+   * 唤端失败调用自定义回调函数
+   * @memberof CallApp
+   */
+  static fallToCustomCb(callback) {
+    checkOpen(() => {
+      callback();
+    });
+  }
+
+  /**
    * 唤起客户端
    * 根据不同 browser 执行不同唤端策略
    * @param {object} config - 唤端参数项
@@ -129,29 +139,36 @@ class CallApp {
   open(config) {
     const browser = getBrowser();
     const { universal, appstore } = this.options;
+    const { callback } = config;
     const supportUniversal = typeof universal !== 'undefined';
+    let checkOpenFall = null;
 
     if (browser.isIos) {
       if (browser.isWechat) {
         evokeByLocation(appstore);
       } else if ((browser.isSafari && getIOSVersion() < 9) || !supportUniversal) {
         evokeByIFrame(this.generateScheme(config));
-        this.fallToAppStore();
+        checkOpenFall = this.fallToAppStore;
       } else {
         evokeByLocation(this.generateUniversalLink(config));
       }
-      return;
-    }
-
-    if (browser.isWechat) {
+    // Android
+    } else if (browser.isWechat) {
       evokeByLocation(this.generateYingYongBao(config));
     } else if (browser.isOriginalChrome) {
       evokeByTagA(this.generateIntent(config));
-      this.fallToFbUrl();
+      checkOpenFall = this.fallToFbUrl;
     } else {
       evokeByIFrame(this.generateScheme(config));
-      this.fallToFbUrl();
+      checkOpenFall = this.fallToFbUrl;
     }
+
+    if (!checkOpenFall) return;
+    if (typeof callback !== 'undefined') {
+      CallApp.fallToCustomCb();
+      return;
+    }
+    checkOpenFall();
   }
 }
 
