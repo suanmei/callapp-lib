@@ -168,7 +168,7 @@ class CallApp {
       CallApp.fallToCustomCb(callback);
       return;
     }
-    checkOpenFall();
+    checkOpenFall.call(this);
   }
 }
 
