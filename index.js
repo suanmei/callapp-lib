@@ -163,11 +163,13 @@ class CallApp {
       checkOpenFall = this.fallToFbUrl;
     }
 
-    if (!checkOpenFall) return;
     if (typeof callback !== 'undefined') {
       CallApp.fallToCustomCb(callback);
       return;
     }
+
+    if (!checkOpenFall) return;
+
     checkOpenFall.call(this);
   }
 }
