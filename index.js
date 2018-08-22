@@ -60,14 +60,17 @@ class CallApp {
    */
   generateIntent(config) {
     const { outChain } = config;
-    const { intent } = this.options;
-    const urlPath = this.buildScheme(config);
+    const { intent, fallback } = this.options;
     const intentParam = Object.keys(intent).map(key => `${key}=${intent[key]};`).join('');
+    let urlPath = this.buildScheme(config);
 
     if (typeof outChain !== 'undefined' && !outChain) {
       const { path, key } = config.outChain;
-      return `intent://${path}?${key}=${encodeURIComponent(urlPath)}/#Intent;${intentParam};end;`;
+      return `intent://${path}?${key}=${encodeURIComponent(urlPath)}/
+        #Intent;${intentParam};S.browser_fallback_url=${fallback};end;`;
     }
+
+    urlPath = urlPath.slice(urlPath.indexOf('//') + 2);
 
     return `intent://${urlPath}/#Intent;${intentParam};end;`;
   }
@@ -138,7 +141,7 @@ class CallApp {
    */
   open(config) {
     const browser = getBrowser();
-    const { universal, appstore } = this.options;
+    const { universal, appstore, logFunc } = this.options;
     const { callback } = config;
     const supportUniversal = typeof universal !== 'undefined';
     let checkOpenFall = null;
@@ -146,9 +149,11 @@ class CallApp {
     if (browser.isIos) {
       if (browser.isWechat) {
         evokeByLocation(appstore);
-      } else if ((browser.isSafari && getIOSVersion() < 9) || !supportUniversal) {
+      } else if ((getIOSVersion() < 9)) {
         evokeByIFrame(this.generateScheme(config));
         checkOpenFall = this.fallToAppStore;
+      } else if (!supportUniversal) {
+        evokeByLocation(this.generateScheme(config));
       } else {
         evokeByLocation(this.generateUniversalLink(config));
       }
@@ -157,10 +162,13 @@ class CallApp {
       evokeByLocation(this.generateYingYongBao(config));
     } else if (browser.isOriginalChrome) {
       evokeByTagA(this.generateIntent(config));
-      checkOpenFall = this.fallToFbUrl;
     } else {
       evokeByIFrame(this.generateScheme(config));
       checkOpenFall = this.fallToFbUrl;
+    }
+
+    if (typeof logFunc !== 'undefined') {
+      logFunc();
     }
 
     if (typeof callback !== 'undefined') {
