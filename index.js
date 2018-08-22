@@ -146,6 +146,10 @@ class CallApp {
     const supportUniversal = typeof universal !== 'undefined';
     let checkOpenFall = null;
 
+    if (typeof logFunc !== 'undefined') {
+      logFunc();
+    }
+
     if (browser.isIos) {
       if (browser.isWechat) {
         evokeByLocation(appstore);
@@ -165,10 +169,6 @@ class CallApp {
     } else {
       evokeByIFrame(this.generateScheme(config));
       checkOpenFall = this.fallToFbUrl;
-    }
-
-    if (typeof logFunc !== 'undefined') {
-      logFunc();
     }
 
     if (typeof callback !== 'undefined') {
