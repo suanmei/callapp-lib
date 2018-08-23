@@ -8,13 +8,13 @@ callapp-lib 是一个 H5 唤起 APP 的解决方案，能够满足大部分唤�
 
 Install with [npm](https://www.npmjs.com/):
 
-```sh
+``` sh
 $ npm install --save callapp-lib
 ```
 
 ## Usage
 
-```
+``` js
 const CallApp = require('callapp-lib');
 
 or
@@ -24,7 +24,7 @@ import CallApp from 'callapp-lib';
 
 callapp-lib 中传递出来的是一个类，你需要将它实例化，然后才能去调用实例对象的方法。
 
-```
+``` js
 const options = {
   key1: 'xxx',
   key2: 'xxx'
