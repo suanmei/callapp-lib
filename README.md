@@ -69,7 +69,7 @@ URL Scheme 的 scheme 字段，是你要打开的 APP 的标识
 
 + key
 
-  既然只是中间页，它自然要打开我们真正要打开的页面，所以我们需要把要打开的页面的 URL Scheme 传递过去。就像前端从 URL 的 query 字符串里面取值一样，客户端也是从 URL Scheme 里面来取。至于参数 key 定成什么，大家自己去协商吧，上面的示例中 `url` 也只是一个示例。
+  既然只是中间页，它自然要打开我们真正要打开的页面，所以我们需要把要打开的页面的 URL Scheme 传递过去。就像前端从 URL 的 query 字符串里面取值一样，客户端也是从 URL Scheme 里面来取。至于参数 key 定成什么，大家自己去协商吧，上面的示例中 `url` 也只是一个示例。
 
 ### intent
 
@@ -78,7 +78,7 @@ URL Scheme 的 scheme 字段，是你要打开的 APP 的标识
 
 安卓原生谷歌浏览器必须传递 Intent 协议地址，才能唤起 APP。
 
-它支持以下五个属性，其中 scheme 和 上面的 protocal 一样，其他四个都是 apk 相关信息，其中 package 和 scheme 必传：
+它支持以下五个属性，其中 scheme 和 上面的 protocal 一样，其他四个都是 apk 相关信息，其中 package 和 scheme 必传：
 
   + package
   + action
@@ -95,7 +95,7 @@ URL Scheme 的 scheme 字段，是你要打开的 APP 的标识
 
 + host
 
-  你的 Universal Link 的域名，`apple-app-site-association` 文件就放在这个域名对应的服务器上。
+  你的 Universal Link 的域名，`apple-app-site-association` 文件就放在这个域名对应的服务器上。
 
 + pathKey
 
