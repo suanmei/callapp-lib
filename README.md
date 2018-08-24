@@ -4,6 +4,8 @@ callapp-lib 是一个 H5 唤起 APP 的解决方案，能够满足大部分唤�
 
 如果你想了解一些唤端的原理知识，或者阅读下面的文档有不理解的名词，可以访问这篇博客 [H5唤起APP指南](https://suanmei.github.io/2018/08/23/h5_call_app/) 。
 
+如果你在使用 callapp-lib 的过程中，有好的想法或者发现了bug，提 Issue 就行，作者会及时跟进。
+
 ## Install
 
 Install with [npm](https://www.npmjs.com/):
@@ -44,14 +46,14 @@ callLib.open({
 ### protocol
 
 类型: `string`  
-必填: ✅
+必填: ✅
 
 URL Scheme 的 scheme 字段，是你要打开的 APP 的标识
 
 ### outChain
 
 类型: `object`  
-必填: ❎
+必填: ❎
 
 外链。我们的 APP 的某些功能可能会集成到另一个 APP 中，为了区分它们的协议，会加上一个中间透明页来分发路由，这层中间页的 URL Scheme 对于我们来说就是外链。当然，这里的外链对 Intent 同样生效。
 
@@ -72,7 +74,7 @@ URL Scheme 的 scheme 字段，是你要打开的 APP 的标识
 ### intent
 
 类型: `object`  
-必填: ✅
+必填: ✅
 
 安卓原生谷歌浏览器必须传递 Intent 协议地址，才能唤起 APP。
 
@@ -87,7 +89,7 @@ URL Scheme 的 scheme 字段，是你要打开的 APP 的标识
 ### universal
 
 类型: `object`  
-必填: ❎
+必填: ❎
 
 如果你们的 ios 工程师没有做相应的配置来让 APP 支持 Universal Link，你可以不用传递， *callap-lib* 将会使用 URL Scheme 来替代它。
 
@@ -102,28 +104,28 @@ URL Scheme 的 scheme 字段，是你要打开的 APP 的标识
 ### appstore
 
 类型: `string`  
-必填: ✅
+必填: ✅
 
 APP 的 App Store 地址，例： `https://itunes.apple.com/cn/app/id1383186862`。
 
 ### yingyongbao
 
 类型: `string`  
-必填: ✅
+必填: ✅
 
 APP 的应用宝地址，例：`'//a.app.qq.com/o/simple.jsp?pkgname=com.youku.shortvideo'`。
 
 ### fallback
 
 类型: `string`  
-必填: ✅
+必填: ✅
 
 唤端失败后跳转的地址。
 
 ### logFunc
 
-类型: `function`  
-必填: ❎
+类型: `function`  
+必填: ❎
 
 埋点入口函数。运营同学可能会希望我们在唤端的时候做埋点，将你的埋点函数传递进来，不管唤端成功与否，它都会被执行。当然，你也可以将这个函数另作他用。
 
