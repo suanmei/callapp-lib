@@ -43,6 +43,8 @@ callLib.open({
 
 实例化过程中，需要传递一个 options 对象给类，options 对象各属性需要严格按照下面的格式。
 
+*下面所有不是必填的，如果你不需要传值，就不要写这个属性，而不是传递一个空字符串或者空对象，callapp-lib 并未对这种情况进行严格的检测。*
+
 ### protocol
 
 类型: `string`  
@@ -61,7 +63,7 @@ URL Scheme 的 scheme 字段，是你要打开的 APP 的标识
 
 + protocal 
 
-  同 URL Scheme 的 scheme 字段，在你的 APP 就和上面的 protocal 属性值相同，在其他 APP 打开就传该 APP 的 scheme 标识。
+  同 URL Scheme 的 scheme 字段，在你的 APP 就和上面的 protocal 属性值相同，在其他 APP 打开就传该 APP 的 scheme 标识。
 
 + path
 
