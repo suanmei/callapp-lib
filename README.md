@@ -24,7 +24,7 @@ or
 import CallApp from 'callapp-lib';
 ```
 
-`callapp-lib` 同样支持 `script` 加载，因为文件目前并未放到服务器上（但最近有计划放到 cdn 上），你暂时下载 `dist/index.umd.js` 到你的项目中，`index.umd.js` 会暴露一个全局变量 `CallApp` ，这个全局变量和上面 `commonjs` 导入的 `CallApp` 内容是一致的，使用方法也是一致的。
+`callapp-lib` 同样支持 `script` 加载，因为文件目前并未放到服务器上（但最近有计划放到 cdn 上），你暂时下载 `dist/index.umd.js` 到你的项目中，`index.umd.js` 会暴露一个全局变量 `CallApp` ，这个全局变量和上面 `commonjs` 导入的 `CallApp` 内容是一致的，使用方法也是一致的。
 
 ``` html
 <script src="path/to/index.umd.js"></script>
