@@ -59,16 +59,3 @@ export function evokeByIFrame(uri) {
 
   iframe.src = uri;
 }
-
-/**
- * 检测是否唤端成功
- * @param {function} cb - 唤端失败回调函数
- */
-export function checkOpen(cb) {
-  setTimeout(() => {
-    const hidden = document.hidden || document.webkitHidden;
-    if (!hidden) {
-      cb();
-    }
-  }, 2500);
-}

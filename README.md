@@ -123,6 +123,13 @@ APP 的 App Store 地址，例： `https://itunes.apple.com/cn/app/id1383186862`
 
 APP 的应用宝地址，例：`'//a.app.qq.com/o/simple.jsp?pkgname=com.youku.shortvideo'`。
 
+### timeout
+
+类型: `number`  
+必填: ❎
+
+等待唤端的时间，超时则判断为唤端失败。
+
 ### fallback
 
 类型: `string`  

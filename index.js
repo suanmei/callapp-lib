@@ -2,11 +2,11 @@
  * @author suanmei <mr_suanmei@163.com>
  */
 import { getIOSVersion, getBrowser } from './sources/browser';
+import * as generate from './sources/generate';
 import {
   evokeByLocation,
   evokeByIFrame,
   evokeByTagA,
-  checkOpen,
 } from './sources/evoke';
 
 class CallApp {
@@ -20,87 +20,36 @@ class CallApp {
   }
 
   /**
-   * 搭建基本的 url scheme
-   * @param {object} config - 参数项
-   * @returns {string} url scheme
-   * @memberof CallApp
-   */
-  buildScheme(config) {
-    const { path, param } = config;
-    const query = typeof param !== 'undefined'
-      ? Object.keys(param).map(key => `${key}=${param[key]}`).join('&')
-      : '';
-
-    return `${this.options.protocol}://${path}?${query}`;
-  }
-
-  /**
-   * 生成业务需要的 url scheme（区分是否是外链）
-   * @param {object} config - 参数项
-   * @returns {string} url scheme
-   * @memberof CallApp
+   * 注册为方法
+   * generateScheme | generateIntent | generateUniversalLink | generateYingYongBao
    */
   generateScheme(config) {
-    const { outChain } = this.options;
-    let uri = this.buildScheme(config);
-
-    if (typeof outChain !== 'undefined' && outChain) {
-      const { protocal, path, key } = outChain;
-      uri = `${protocal}://${path}?${key}=${encodeURIComponent(uri)}`;
-    }
-
-    return uri;
+    return generate.generateScheme(config, this.options);
   }
 
-  /**
-   * 生成 android intent
-   * @param {object} config - 唤端参数项
-   * @returns {string} intent
-   * @memberof CallApp
-   */
   generateIntent(config) {
-    const { outChain } = config;
-    const { intent, fallback } = this.options;
-    const intentParam = Object.keys(intent).map(key => `${key}=${intent[key]};`).join('');
-    let urlPath = this.buildScheme(config);
-
-    if (typeof outChain !== 'undefined' && !outChain) {
-      const { path, key } = config.outChain;
-      return `intent://${path}?${key}=${encodeURIComponent(urlPath)}/
-        #Intent;${intentParam};S.browser_fallback_url=${fallback};end;`;
-    }
-
-    urlPath = urlPath.slice(urlPath.indexOf('//') + 2);
-
-    return `intent://${urlPath}/#Intent;${intentParam};end;`;
+    return generate.generateIntent(config, this.options);
   }
 
-  /**
-   * 生成 universalLink
-   * @param {object} config - 唤端参数项
-   * @returns {string} universalLink
-   * @memberof CallApp
-   */
   generateUniversalLink(config) {
-    const { host, pathKey } = this.options.universal;
-    const { path, param } = config;
-    const query = typeof param !== 'undefined'
-      ? Object.keys(param).map(key => `${key}=${param[key]}`).join('&')
-      : '';
+    return generate.generateUniversalLink(config, this.options);
+  }
 
-    return `//${host}?${pathKey}=${path}${query ? '&' : ''}${query}`;
+  generateYingYongBao(config) {
+    return generate.generateYingYongBao(config, this.options);
   }
 
   /**
-   * 生成 universalLink
-   * @param {object} config - 唤端参数项
-   * @returns {string} universalLink
-   * @memberof CallApp
+   * 检测是否唤端成功
+   * @param {function} cb - 唤端失败回调函数
    */
-  generateYingYongBao(config) {
-    const url = this.generateScheme(config);
-    // 支持 AppLink
-    return `${this.options.yingyongbao}&android_schema=${encodeURIComponent(url)}`;
+  checkOpen(cb) {
+    setTimeout(() => {
+      const hidden = document.hidden || document.webkitHidden;
+      if (!hidden) {
+        cb();
+      }
+    }, this.timeout);
   }
 
   /**
@@ -108,7 +57,7 @@ class CallApp {
    * @memberof CallApp
    */
   fallToAppStore() {
-    checkOpen(() => {
+    this.checkOpen(() => {
       evokeByLocation(this.options.appstore);
     });
   }
@@ -118,7 +67,7 @@ class CallApp {
    * @memberof CallApp
    */
   fallToFbUrl() {
-    checkOpen(() => {
+    this.checkOpen(() => {
       evokeByLocation(this.options.fallback);
     });
   }
@@ -127,8 +76,8 @@ class CallApp {
    * 唤端失败调用自定义回调函数
    * @memberof CallApp
    */
-  static fallToCustomCb(callback) {
-    checkOpen(() => {
+  fallToCustomCb(callback) {
+    this.checkOpen(() => {
       callback();
     });
   }
@@ -144,6 +93,10 @@ class CallApp {
     const { universal, appstore, logFunc } = this.options;
     const { callback } = config;
     const supportUniversal = typeof universal !== 'undefined';
+    const schemeURL = this.generateScheme(config);
+    const intentURL = this.generateIntent(config);
+    const universalURL = this.generateUniversalLink(config);
+    const yingYongBaoURL = this.generateYingYongBao(config);
     let checkOpenFall = null;
 
     if (typeof logFunc !== 'undefined') {
@@ -154,25 +107,26 @@ class CallApp {
       if (browser.isWechat) {
         evokeByLocation(appstore);
       } else if ((getIOSVersion() < 9)) {
-        evokeByIFrame(this.generateScheme(config));
+        evokeByIFrame(schemeURL);
         checkOpenFall = this.fallToAppStore;
       } else if (!supportUniversal) {
-        evokeByLocation(this.generateScheme(config));
+        evokeByLocation(schemeURL);
+        checkOpenFall = this.fallToAppStore;
       } else {
-        evokeByLocation(this.generateUniversalLink(config));
+        evokeByLocation(universalURL);
       }
     // Android
     } else if (browser.isWechat) {
-      evokeByLocation(this.generateYingYongBao(config));
+      evokeByLocation(yingYongBaoURL);
     } else if (browser.isOriginalChrome) {
-      evokeByTagA(this.generateIntent(config));
+      evokeByTagA(intentURL);
     } else {
-      evokeByIFrame(this.generateScheme(config));
+      evokeByIFrame(schemeURL);
       checkOpenFall = this.fallToFbUrl;
     }
 
     if (typeof callback !== 'undefined') {
-      CallApp.fallToCustomCb(callback);
+      this.fallToCustomCb(callback);
       return;
     }
 
