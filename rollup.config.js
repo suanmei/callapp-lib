@@ -7,8 +7,9 @@ import { uglify } from 'rollup-plugin-uglify';
 export default {
   input: 'index.js',
   output: {
-    format: 'cjs',
-    file: 'dist/index.cjs.js',
+    format: 'umd',
+    name: 'CallApp',
+    file: 'dist/index.umd.js',
   },
   plugins: [
     resolve({
