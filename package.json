@@ -1,8 +1,8 @@
 {
   "name": "callapp-lib",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "description": "call native webview from webpage",
-  "main": "index.js",
+  "main": "dist/index.umd.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup -c"
