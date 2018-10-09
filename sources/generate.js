@@ -46,7 +46,7 @@ export function generateIntent(config, options) {
   if (typeof outChain !== 'undefined' && !outChain) {
     const { path, key } = config.outChain;
     return `intent://${path}?${key}=${encodeURIComponent(urlPath)}/
-      #Intent;${intentParam};S.browser_fallback_url=${fallback};end;`;
+      #Intent;${intentParam};S.browser_fallback_url=${encodeURIComponent(fallback)};end;`;
   }
 
   urlPath = urlPath.slice(urlPath.indexOf('//') + 2);
