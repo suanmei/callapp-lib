@@ -24,10 +24,16 @@ or
 import CallApp from 'callapp-lib';
 ```
 
-callapp-lib 同样支持 `script` 加载，因为文件目前并未放到服务器上（但最近有计划放到 cdn 上），你暂时需要下载 `dist/index.umd.js` 到你的项目中，`index.umd.js` 会暴露一个全局变量 `CallApp` ，这个全局变量和上面 `commonjs` 导入的 `CallApp` 内容是一致的，使用方法也是一致的。
+callapp-lib 同样支持 `script` 加载，你可以使用下面的 **线上文件（地址在下面的示例中）**，也可以下载 `dist/index.umd.js` 到你的项目中，`index.umd.js` 会暴露一个全局变量 `CallApp` ，这个全局变量和上面 `commonjs` 导入的 `CallApp` 内容是一致的，使用方法也是一致的。
 
 ``` html
-<script src="path/to/index.umd.js"></script>
+<!-- 及时下载最新版本 -->
+<script src="https://unpkg.com/callapp-lib"></script>
+
+or
+
+<!-- 具体某一版本，本例中是 1.6.2 ，下载速度较上面快一些，因为上面的地址会有 302 -->
+<script src="https://unpkg.com/callapp-lib@1.6.2/dist/index.umd.js"></script>
 ```
 
 callapp-lib 中传递出来的是一个类，你需要将它实例化，然后才能去调用实例对象的方法。
