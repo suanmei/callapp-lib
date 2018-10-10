@@ -4,11 +4,12 @@
   "description": "call native webview from webpage",
   "main": "dist/index.umd.js",
   "scripts": {
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "start": "npm run build && git add ."
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run build && git add .",
+      "pre-commit": "npm start",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   },
