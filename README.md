@@ -133,8 +133,9 @@ APP 的应用宝地址，例：`'//a.app.qq.com/o/simple.jsp?pkgname=com.youku.s
 
 类型: `number`  
 必填: ❎
+默认值: 2000
 
-等待唤端的时间，超时则判断为唤端失败。
+等待唤端的时间（单位: ms），超时则判断为唤端失败。
 
 ### fallback
 
