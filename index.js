@@ -16,7 +16,8 @@ class CallApp {
    * @memberof CallApp
    */
   constructor(options) {
-    this.options = options || {};
+    const defaultOptions = { timeout: 2000 };
+    this.options = Object.assign(defaultOptions, options);
   }
 
   /**
@@ -49,7 +50,7 @@ class CallApp {
       if (!hidden) {
         cb();
       }
-    }, this.timeout);
+    }, this.options.timeout);
   }
 
   /**

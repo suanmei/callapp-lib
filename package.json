@@ -1,6 +1,6 @@
 {
   "name": "callapp-lib",
-  "version": "1.6.3",
+  "version": "1.6.4",
   "description": "call native webview from webpage",
   "main": "dist/index.umd.js",
   "scripts": {
@@ -44,6 +44,7 @@
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.7.0",
+    "babel-runtime": "^6.26.0",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.13.0",
