@@ -38,20 +38,20 @@ export function generateScheme(config, options) {
  * @memberof CallApp
  */
 export function generateIntent(config, options) {
-  const { outChain } = config;
+  const { outChain } = options;
   const { intent, fallback } = options;
   const intentParam = Object.keys(intent).map(key => `${key}=${intent[key]};`).join('');
   let urlPath = buildScheme(config, options);
 
-  if (typeof outChain !== 'undefined' && !outChain) {
-    const { path, key } = config.outChain;
+  if (typeof outChain !== 'undefined' && outChain) {
+    const { path, key } = options.outChain;
     return `intent://${path}?${key}=${encodeURIComponent(urlPath)}/
-      #Intent;${intentParam};S.browser_fallback_url=${encodeURIComponent(fallback)};end;`;
+      #Intent;${intentParam}S.browser_fallback_url=${encodeURIComponent(fallback)};end;`;
   }
 
   urlPath = urlPath.slice(urlPath.indexOf('//') + 2);
 
-  return `intent://${urlPath}/#Intent;${intentParam};end;`;
+  return `intent://${urlPath}/#Intent;${intentParam}end;`;
 }
 
 /**
