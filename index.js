@@ -7,6 +7,7 @@ import {
   evokeByLocation,
   evokeByIFrame,
   evokeByTagA,
+  checkOpen,
 } from './sources/evoke';
 
 class CallApp {
@@ -22,7 +23,7 @@ class CallApp {
 
   /**
    * 注册为方法
-   * generateScheme | generateIntent | generateUniversalLink | generateYingYongBao
+   * generateScheme | generateIntent | generateUniversalLink | generateYingYongBao | checkOpen
    */
   generateScheme(config) {
     return generate.generateScheme(config, this.options);
@@ -40,17 +41,8 @@ class CallApp {
     return generate.generateYingYongBao(config, this.options);
   }
 
-  /**
-   * 检测是否唤端成功
-   * @param {function} cb - 唤端失败回调函数
-   */
   checkOpen(cb) {
-    setTimeout(() => {
-      const hidden = document.hidden || document.webkitHidden;
-      if (!hidden) {
-        cb();
-      }
-    }, this.options.timeout);
+    return checkOpen(cb, this.options.timeout);
   }
 
   /**

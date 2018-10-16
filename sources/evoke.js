@@ -1,5 +1,35 @@
 let iframe = null;
 
+function getPagePropertyPrefix() {
+  const prefixes = ['webkit', 'moz', 'ms', 'o'];
+  let correctPrefix;
+
+  if ('hidden' in document) return '';
+
+  prefixes.forEach((prefix) => {
+    if (`${prefix}Hidden` in document) {
+      correctPrefix = prefix;
+    }
+  });
+
+  return correctPrefix || false;
+}
+
+function isPageHidden() {
+  const prefix = getPagePropertyPrefix();
+  if (prefix === false) return false;
+
+  const hiddenProperty = prefix ? `${prefix}Hidden` : 'hidden';
+  return document[hiddenProperty];
+}
+
+function getVisibilityChangeProperty() {
+  const prefix = getPagePropertyPrefix();
+  if (prefix === false) return false;
+
+  return `${prefix}visibilitychange`;
+}
+
 /**
  * 创建 event 对象
  * @returns {object} event 对象
@@ -58,4 +88,30 @@ export function evokeByIFrame(uri) {
   }
 
   iframe.src = uri;
+}
+
+/**
+ * 检测是否唤端成功
+ * @param {function} cb - 唤端失败回调函数
+ */
+export function checkOpen(cb, timeout) {
+  const visibilityChangeProperty = getVisibilityChangeProperty();
+  const timer = setTimeout(() => {
+    const hidden = isPageHidden();
+    if (!hidden) {
+      cb();
+    }
+  }, timeout);
+
+  if (visibilityChangeProperty) {
+    document.addEventListener(visibilityChangeProperty, () => {
+      clearTimeout(timer);
+    });
+
+    return;
+  }
+
+  window.addEventListener('pagehide', () => {
+    clearTimeout(timer);
+  });
 }
