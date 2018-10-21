@@ -41,17 +41,17 @@ export function generateIntent(config, options) {
   const { outChain } = options;
   const { intent, fallback } = options;
   const intentParam = Object.keys(intent).map(key => `${key}=${intent[key]};`).join('');
+  const intentTail = `#Intent;${intentParam}S.browser_fallback_url=${encodeURIComponent(fallback)};end;`;
   let urlPath = buildScheme(config, options);
 
   if (typeof outChain !== 'undefined' && outChain) {
     const { path, key } = options.outChain;
-    return `intent://${path}?${key}=${encodeURIComponent(urlPath)}/
-      #Intent;${intentParam}S.browser_fallback_url=${encodeURIComponent(fallback)};end;`;
+    return `intent://${path}?${key}=${encodeURIComponent(urlPath)}/${intentTail}`;
   }
 
   urlPath = urlPath.slice(urlPath.indexOf('//') + 2);
 
-  return `intent://${urlPath}/#Intent;${intentParam}end;`;
+  return `intent://${urlPath}/${intentTail}`;
 }
 
 /**
