@@ -6,7 +6,6 @@ import * as generate from './sources/generate';
 import {
   evokeByLocation,
   evokeByIFrame,
-  evokeByTagA,
   checkOpen,
 } from './sources/evoke';
 
@@ -112,7 +111,7 @@ class CallApp {
     } else if (browser.isWechat) {
       evokeByLocation(yingYongBaoURL);
     } else if (browser.isOriginalChrome) {
-      evokeByTagA(intentURL);
+      evokeByLocation(intentURL);
     } else {
       evokeByIFrame(schemeURL);
       checkOpenFall = this.fallToFbUrl;
