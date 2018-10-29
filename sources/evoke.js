@@ -1,5 +1,10 @@
 let iframe = null;
 
+/**
+ * 获取页面隐藏属性的前缀
+ * 如果页面支持 hidden 属性，返回 '' 就行
+ * 如果不支持，各个浏览器对 hidden 属性，有自己的实现，不同浏览器不同前缀，遍历看支持哪个
+ */
 function getPagePropertyPrefix() {
   const prefixes = ['webkit', 'moz', 'ms', 'o'];
   let correctPrefix;
@@ -15,6 +20,10 @@ function getPagePropertyPrefix() {
   return correctPrefix || false;
 }
 
+
+/**
+ * 判断页面是否隐藏（进入后台）
+ */
 function isPageHidden() {
   const prefix = getPagePropertyPrefix();
   if (prefix === false) return false;
@@ -23,6 +32,9 @@ function isPageHidden() {
   return document[hiddenProperty];
 }
 
+/**
+ * 获取判断页面 显示|隐藏 状态改变的属性
+ */
 function getVisibilityChangeProperty() {
   const prefix = getPagePropertyPrefix();
   if (prefix === false) return false;
