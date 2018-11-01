@@ -1,6 +1,6 @@
 {
   "name": "callapp-lib",
-  "version": "1.6.8",
+  "version": "1.7.0",
   "description": "call native webview from webpage",
   "main": "dist/index.umd.js",
   "scripts": {

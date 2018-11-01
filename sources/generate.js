@@ -9,8 +9,9 @@ export function buildScheme(config, options) {
   const query = typeof param !== 'undefined'
     ? Object.keys(param).map(key => `${key}=${param[key]}`).join('&')
     : '';
+  const urlQuery = query ? `?${query}` : '';
 
-  return `${options.protocol}://${path}?${query}`;
+  return `${options.protocol}://${path}${urlQuery}`;
 }
 
 /**
@@ -69,8 +70,9 @@ export function generateUniversalLink(config, options) {
   const query = typeof param !== 'undefined'
     ? Object.keys(param).map(key => `${key}=${param[key]}`).join('&')
     : '';
+  const urlQuery = query ? `&${query}` : '';
 
-  return `//${host}?${pathKey}=${path}${query ? '&' : ''}${query}`;
+  return `//${host}?${pathKey}=${path}${urlQuery}`;
 }
 
 /**
