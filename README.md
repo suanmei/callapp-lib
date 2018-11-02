@@ -155,21 +155,26 @@ APP 的应用宝地址，例：`'//a.app.qq.com/o/simple.jsp?pkgname=com.youku.s
 
 ### open
 
-唤端功能。接收一个对象作为参数，该对象支持以下属性： **(以下属性不需要都可以不填)** 
+唤端功能。接收一个对象作为参数，该对象支持以下属性：  
 
 + path
 
-  类型: `string`  
+  类型: `string` 
+  必填: ✅  
 
   需要打开的页面对应的值，URL Scheme 中的 path 部分，参照 [H5唤起APP指南](https://suanmei.github.io/2018/08/23/h5_call_app/) 一文中的解释。
+  
+  只想要直接打开 app ，不需要打开特定页面，path 传空字符串 `''` 就可以。
 
 + param
 
   类型: `object`  
+  必填: ❎   
 
   打开 APP 某个页面，它需要接收的参数。
 
-+ callback
++ callback 
+  必填: ❎  
 
   类型: `function`  
 
