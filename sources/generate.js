@@ -47,12 +47,12 @@ export function generateIntent(config, options) {
 
   if (typeof outChain !== 'undefined' && outChain) {
     const { path, key } = options.outChain;
-    return `intent://${path}?${key}=${encodeURIComponent(urlPath)}/${intentTail}`;
+    return `intent://${path}?${key}=${encodeURIComponent(urlPath)}${intentTail}`;
   }
 
   urlPath = urlPath.slice(urlPath.indexOf('//') + 2);
 
-  return `intent://${urlPath}/${intentTail}`;
+  return `intent://${urlPath}${intentTail}`;
 }
 
 /**
