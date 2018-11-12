@@ -20,7 +20,6 @@ function getPagePropertyPrefix() {
   return correctPrefix || false;
 }
 
-
 /**
  * 判断页面是否隐藏（进入后台）
  */

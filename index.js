@@ -82,13 +82,17 @@ class CallApp {
    */
   open(config) {
     const browser = getBrowser();
-    const { universal, appstore, logFunc } = this.options;
+
+    const {
+      universal,
+      appstore,
+      logFunc,
+      intent,
+    } = this.options;
+
     const { callback } = config;
     const supportUniversal = typeof universal !== 'undefined';
     const schemeURL = this.generateScheme(config);
-    const intentURL = this.generateIntent(config);
-    const universalURL = this.generateUniversalLink(config);
-    const yingYongBaoURL = this.generateYingYongBao(config);
     let checkOpenFall = null;
 
     if (typeof logFunc !== 'undefined') {
@@ -105,13 +109,13 @@ class CallApp {
         evokeByLocation(schemeURL);
         checkOpenFall = this.fallToAppStore;
       } else {
-        evokeByLocation(universalURL);
+        evokeByLocation(this.generateUniversalLink(config));
       }
     // Android
     } else if (browser.isWechat) {
-      evokeByLocation(yingYongBaoURL);
-    } else if (browser.isOriginalChrome) {
-      evokeByLocation(intentURL);
+      evokeByLocation(this.generateYingYongBao(config));
+    } else if (browser.isOriginalChrome && typeof intent !== 'undefined') {
+      evokeByLocation(this.generateIntent(config));
     } else {
       evokeByIFrame(schemeURL);
       checkOpenFall = this.fallToFbUrl;
