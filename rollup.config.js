@@ -9,7 +9,7 @@ export default {
   output: {
     format: 'umd',
     name: 'CallApp',
-    file: 'dist/index.umd.js',
+    file: 'dist/index.umd.min.js',
   },
   plugins: [
     resolve({

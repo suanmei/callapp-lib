@@ -4,8 +4,8 @@
   "description": "call native webview from webpage",
   "main": "dist/index.umd.js",
   "scripts": {
-    "build": "rollup -c",
-    "start": "npm run build && git add ."
+    "start": "rollup -c",
+    "build": "npm run start && git add ."
   },
   "husky": {
     "hooks": {
