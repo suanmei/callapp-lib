@@ -100,7 +100,8 @@ class CallApp {
     }
 
     if (browser.isIos) {
-      if (browser.isWechat) {
+      // 近期ios版本qq禁止了scheme和universalLink唤起app，安卓不受影响 - 18年12月23日
+      if (browser.isWechat || browser.isQQ) {
         evokeByLocation(appstore);
       } else if ((getIOSVersion() < 9)) {
         evokeByIFrame(schemeURL);

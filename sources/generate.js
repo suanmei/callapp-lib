@@ -6,12 +6,14 @@
  */
 export function buildScheme(config, options) {
   const { path, param } = config;
-  const query = typeof param !== 'undefined'
-    ? Object.keys(param).map(key => `${key}=${param[key]}`).join('&')
-    : '';
+  // callapp-lib 2.0.0 版本移除 protocol 属性，添加 scheme 属性，详细用法见 README.md
+  const { host, port, protocol } = options.scheme;
+  const portPart = port ? `:${port}` : '';
+  const hostPort = host ? `${host}${portPart}/` : '';
+  const query = typeof param !== 'undefined' ? Object.keys(param).map(key => `${key}=${param[key]}`).join('&') : '';
   const urlQuery = query ? `?${query}` : '';
 
-  return `${options.protocol}://${path}${urlQuery}`;
+  return `${protocol}://${hostPort}${path}${urlQuery}`;
 }
 
 /**
@@ -25,8 +27,8 @@ export function generateScheme(config, options) {
   let uri = buildScheme(config, options);
 
   if (typeof outChain !== 'undefined' && outChain) {
-    const { protocal, path, key } = outChain;
-    uri = `${protocal}://${path}?${key}=${encodeURIComponent(uri)}`;
+    const { protocol, path, key } = outChain;
+    uri = `${protocol}://${path}?${key}=${encodeURIComponent(uri)}`;
   }
 
   return uri;

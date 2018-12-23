@@ -62,12 +62,37 @@ callLib.open({
 
 下面所有不是必填的，如果你不需要传值，就不要写这个属性，而不是传递一个空字符串或者空对象，callapp-lib 并未对这种情况进行严格的检测。
 
-### protocol
+### scheme
 
-类型: `string`  
+类型: `object`  
 必填: ✅
 
-URL Scheme 的 scheme 字段，是你要打开的 APP 的标识
+用来配置 URL Scheme 所必须的那些字段。
+
++ protocol 
+
+  类型: `string`  
+  必填: ✅
+
+  APP 协议，URL Scheme 的 scheme 字段，就是你要打开的 APP 的标识。
+
++ host
+
+  类型: `string`  
+  必填: ❎
+
+  URL Scheme 的 host 字段。
+
++ port
+
+  类型: `string` | `number`  
+  必填: ❎
+
+  URL Scheme 的 port 字段。
+
+### <s>protocol</s> 
+
+callapp-lib 2.0.0 版本已移除，原先的 protocol 移入到新增的 scheme 属性中
 
 ### outChain
 
@@ -78,9 +103,9 @@ URL Scheme 的 scheme 字段，是你要打开的 APP 的标识
 
 例：`youku://ykshortvideo?url=xxx`
 
-+ protocal 
++ protocol (2.0.0 版本由原先的 protocal 修改为 protocol，原先的 protocal 是拼写错误)
 
-  同 URL Scheme 的 scheme 字段，在你的 APP 就和上面的 protocal 属性值相同，在其他 APP 打开就传该 APP 的 scheme 标识。
+  同 URL Scheme 的 scheme 字段，在你的 APP 就和上面的 protocol 属性值相同，在其他 APP 打开就传该 APP 的 scheme 标识。
 
 + path
 

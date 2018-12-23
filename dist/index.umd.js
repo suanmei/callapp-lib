@@ -1,8 +1,8 @@
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
 	typeof define === 'function' && define.amd ? define(factory) :
-	(global.CallApp = factory());
-}(this, (function () { 'use strict';
+	(global = global || self, global.CallApp = factory());
+}(this, function () { 'use strict';
 
 	function unwrapExports (x) {
 		return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
@@ -521,13 +521,21 @@
 	function buildScheme(config, options) {
 	  var path = config.path,
 	      param = config.param;
+	  // callapp-lib 2.0.0 版本移除 protocol 属性，添加 scheme 属性，详细用法见 README.md
 
+	  var _options$scheme = options.scheme,
+	      host = _options$scheme.host,
+	      port = _options$scheme.port,
+	      protocol = _options$scheme.protocol;
+
+	  var portPart = port ? ':' + port : '';
+	  var hostPort = host ? '' + host + portPart + '/' : '';
 	  var query = typeof param !== 'undefined' ? _Object$keys(param).map(function (key) {
 	    return key + '=' + param[key];
 	  }).join('&') : '';
 	  var urlQuery = query ? '?' + query : '';
 
-	  return options.protocol + '://' + path + urlQuery;
+	  return protocol + '://' + hostPort + path + urlQuery;
 	}
 
 	/**
@@ -542,11 +550,11 @@
 	  var uri = buildScheme(config, options);
 
 	  if (typeof outChain !== 'undefined' && outChain) {
-	    var protocal = outChain.protocal,
+	    var protocol = outChain.protocol,
 	        path = outChain.path,
 	        key = outChain.key;
 
-	    uri = protocal + '://' + path + '?' + key + '=' + encodeURIComponent(uri);
+	    uri = protocol + '://' + path + '?' + key + '=' + encodeURIComponent(uri);
 	  }
 
 	  return uri;
@@ -828,7 +836,8 @@
 	      }
 
 	      if (browser.isIos) {
-	        if (browser.isWechat) {
+	        // 近期ios版本qq禁止了scheme和universalLink唤起app，安卓不受影响 - 18年12月23日
+	        if (browser.isWechat || browser.isQQ) {
 	          evokeByLocation(appstore);
 	        } else if (getIOSVersion() < 9) {
 	          evokeByIFrame(schemeURL);
@@ -865,4 +874,4 @@
 
 	return CallApp;
 
-})));
+}));
