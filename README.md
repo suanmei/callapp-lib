@@ -228,5 +228,3 @@ APP 的应用宝地址，例：`'//a.app.qq.com/o/simple.jsp?pkgname=com.youku.s
 ### generateUniversalLink
 
 生成 Universal Link，接收参数同 `generateScheme` 方法参数。
-
-[Universal Link](https://flash-link.youku.com)
