@@ -118,7 +118,7 @@ callapp-lib 2.0.0 版本已移除，原先的 protocol 移入到新增的 scheme
 ### intent
 
 类型: `object`  
-必填: ✅
+必填: ❎   
 
 安卓原生谷歌浏览器必须传递 Intent 协议地址，才能唤起 APP。
 
