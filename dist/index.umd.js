@@ -515,6 +515,7 @@
 	/**
 	 * 搭建基本的 url scheme
 	 * @param {object} config - 参数项
+	 * @param {object} options - callapp-lib 基础配置
 	 * @returns {string} url scheme
 	 * @memberof CallApp
 	 */
@@ -541,6 +542,7 @@
 	/**
 	 * 生成业务需要的 url scheme（区分是否是外链）
 	 * @param {object} config - 参数项
+	 * @param {object} options - callapp-lib 基础配置
 	 * @returns {string} url scheme
 	 * @memberof CallApp
 	 */
@@ -563,6 +565,7 @@
 	/**
 	 * 生成 android intent
 	 * @param {object} config - 唤端参数项
+	 * @param {object} options - callapp-lib 基础配置
 	 * @returns {string} intent
 	 * @memberof CallApp
 	 */
@@ -593,6 +596,7 @@
 	/**
 	 * 生成 universalLink
 	 * @param {object} config - 唤端参数项
+	 * @param {object} options - callapp-lib 基础配置
 	 * @returns {string} universalLink
 	 * @memberof CallApp
 	 */
@@ -615,9 +619,10 @@
 	}
 
 	/**
-	 * 生成 universalLink
+	 * 生成 应用宝链接
 	 * @param {object} config - 唤端参数项
-	 * @returns {string} universalLink
+	 * @param {object} options - callapp-lib 基础配置
+	 * @returns {string} 应用宝链接
 	 * @memberof CallApp
 	 */
 	function generateYingYongBao(config, options) {
