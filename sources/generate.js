@@ -6,12 +6,8 @@
  * @memberof CallApp
  */
 export function buildScheme(config, options) {
-  const { path, param, buildScheme: customBuildScheme } = config;
-
-  if (typeof customBuildScheme !== 'undefined') {
-    return customBuildScheme(config, options);
-  }
-
+  const { path, param } = config;
+  
   // callapp-lib 2.0.0 版本移除 protocol 属性，添加 scheme 属性，详细用法见 README.md
   const { host, port, protocol } = options.scheme;
   const portPart = port ? `:${port}` : '';
@@ -83,7 +79,7 @@ export function generateUniversalLink(config, options) {
     : '';
   const urlQuery = query ? `&${query}` : '';
 
-  return `//${host}?${pathKey}=${path}${urlQuery}`;
+  return `https://${host}?${pathKey}=${path}${urlQuery}`;
 }
 
 /**
