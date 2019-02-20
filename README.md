@@ -181,6 +181,13 @@ APP 的应用宝地址，例：`'//a.app.qq.com/o/simple.jsp?pkgname=com.youku.s
 
 埋点入口函数。运营同学可能会希望我们在唤端的时候做埋点，将你的埋点函数传递进来，不管唤端成功与否，它都会被执行。当然，你也可以将这个函数另作他用。
 
+### buildScheme
+
+类型: `function`  
+必填: ❎
+
+url scheme 自定义拼接函数，内置的 buildScheme 函数是按照 uri 规范来拼接的，如果你们的 app 对 url scheme 有特殊需求，可以自定义这个函数，此函数有两个入参，`(config, options)`, config 是你调用 open 方法是传入的对象，options 是你初始化 callapp-lib 时传入的对象。
+
 ## Method
 
 ### open
