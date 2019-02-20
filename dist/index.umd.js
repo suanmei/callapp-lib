@@ -521,9 +521,15 @@
 	 */
 	function buildScheme(config, options) {
 	  var path = config.path,
-	      param = config.param;
-	  // callapp-lib 2.0.0 版本移除 protocol 属性，添加 scheme 属性，详细用法见 README.md
+	      param = config.param,
+	      customBuildScheme = config.buildScheme;
 
+
+	  if (typeof customBuildScheme !== 'undefined') {
+	    return customBuildScheme(config, options);
+	  }
+
+	  // callapp-lib 2.0.0 版本移除 protocol 属性，添加 scheme 属性，详细用法见 README.md
 	  var _options$scheme = options.scheme,
 	      host = _options$scheme.host,
 	      port = _options$scheme.port,
@@ -615,7 +621,7 @@
 	  }).join('&') : '';
 	  var urlQuery = query ? '&' + query : '';
 
-	  return '//' + host + '?' + pathKey + '=' + path + urlQuery;
+	  return 'https://' + host + '?' + pathKey + '=' + path + urlQuery;
 	}
 
 	/**
