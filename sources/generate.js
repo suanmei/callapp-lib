@@ -6,7 +6,8 @@
  * @memberof CallApp
  */
 export function buildScheme(config, options) {
-  const { path, param, buildScheme: customBuildScheme } = config;
+  const { path, param } = config;
+  const { buildScheme: customBuildScheme } = options;
 
   if (typeof customBuildScheme !== 'undefined') {
     return customBuildScheme(config, options);

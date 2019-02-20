@@ -521,8 +521,8 @@
 	 */
 	function buildScheme(config, options) {
 	  var path = config.path,
-	      param = config.param,
-	      customBuildScheme = config.buildScheme;
+	      param = config.param;
+	  var customBuildScheme = options.buildScheme;
 
 
 	  if (typeof customBuildScheme !== 'undefined') {
