@@ -67,6 +67,20 @@ export function evokeByIFrame(uri) {
 }
 
 /**
+ * 通过 A 标签唤起
+ * @param {string}} [uri] - 需要打开的地址
+ */
+export function evokeByTagA(uri) {
+  const tagA = document.createElement('a');
+
+  tagA.setAttribute('href', uri);
+  tagA.style.display = 'none';
+  document.body.appendChild(tagA);
+
+  tagA.onclick();
+}
+
+/**
  * 检测是否唤端成功
  * @param {function} cb - 唤端失败回调函数
  */

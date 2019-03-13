@@ -6,6 +6,7 @@ import * as generate from './sources/generate';
 import {
   evokeByLocation,
   evokeByIFrame,
+  evokeByTagA,
   checkOpen,
 } from './sources/evoke';
 
@@ -115,8 +116,13 @@ class CallApp {
     // Android
     } else if (browser.isWechat) {
       evokeByLocation(this.generateYingYongBao(config));
-    } else if (browser.isOriginalChrome && typeof intent !== 'undefined') {
-      evokeByLocation(this.generateIntent(config));
+    } else if (browser.isOriginalChrome) {
+      if (typeof intent !== 'undefined') {
+        evokeByLocation(this.generateIntent(config));
+      } else {
+        // scheme 在 andriod chrome 25+ 版本上必须手势触发
+        evokeByTagA(schemeURL);
+      }
     } else {
       evokeByIFrame(schemeURL);
       checkOpenFall = this.fallToFbUrl;

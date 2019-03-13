@@ -706,6 +706,20 @@
 	}
 
 	/**
+	 * 通过 A 标签唤起
+	 * @param {string}} [uri] - 需要打开的地址
+	 */
+	function evokeByTagA(uri) {
+	  var tagA = document.createElement('a');
+
+	  tagA.setAttribute('href', uri);
+	  tagA.style.display = 'none';
+	  document.body.appendChild(tagA);
+
+	  tagA.onclick();
+	}
+
+	/**
 	 * 检测是否唤端成功
 	 * @param {function} cb - 唤端失败回调函数
 	 */
@@ -862,8 +876,13 @@
 	        // Android
 	      } else if (browser.isWechat) {
 	        evokeByLocation(this.generateYingYongBao(config));
-	      } else if (browser.isOriginalChrome && typeof intent !== 'undefined') {
-	        evokeByLocation(this.generateIntent(config));
+	      } else if (browser.isOriginalChrome) {
+	        if (typeof intent !== 'undefined') {
+	          evokeByLocation(this.generateIntent(config));
+	        } else {
+	          // scheme 在 andriod chrome 25+ 版本上必须手势触发
+	          evokeByTagA(schemeURL);
+	        }
 	      } else {
 	        evokeByIFrame(schemeURL);
 	        checkOpenFall = this.fallToFbUrl;
