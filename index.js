@@ -122,6 +122,7 @@ class CallApp {
       } else {
         // scheme 在 andriod chrome 25+ 版本上必须手势触发
         evokeByTagA(schemeURL);
+        checkOpenFall = this.fallToFbUrl;
       }
     } else {
       evokeByIFrame(schemeURL);
