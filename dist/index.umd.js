@@ -716,7 +716,7 @@
 	  tagA.style.display = 'none';
 	  document.body.appendChild(tagA);
 
-	  tagA.onclick();
+	  tagA.click();
 	}
 
 	/**
