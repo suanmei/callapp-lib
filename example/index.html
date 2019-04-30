@@ -6,13 +6,28 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>callapp-lib示例</title>
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      text-align: center;
+    }
+
     #call-button {
-      
+      display: inline-block;
+      margin-top: 50px;
+      padding: 10px;
+      border: 1px solid #000;
+      color: #c30;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
     }
   </style>
 </head>
 <body>
-  <div id='call-button'>点击唤起电流App</div>
+  <div id='call-button'>点击唤起电流App个人页</div>
 
   <script src='https://unpkg.com/callapp-lib@1.7.3/dist/index.umd.js'></script>
   <script>
@@ -43,7 +58,7 @@
 
     callButton.addEventListener('click', () => {
       lib.open({
-        path: 'home',
+        path: 'profile',
       });
     });
   </script>
