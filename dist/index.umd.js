@@ -464,6 +464,7 @@
 	  var isWechat = /micromessenger\/([\d.]+)/i.test(ua);
 	  var isWeibo = /(weibo).*weibo__([\d.]+)/i.test(ua);
 	  var isQQ = /qq\/([\d.]+)/i.test(ua);
+	  var isQQBrowser = /(qqbrowser)\/([\d.]+)/i.test(ua);
 	  var isQzone = /qzone\/.*_qz_([\d.]+)/i.test(ua);
 	  // 安卓 chrome 浏览器，很多 app 都是在 chrome 的 ua 上进行扩展的
 	  var isOriginalChrome = /chrome\/[\d.]+ Mobile Safari\/[\d.]+/i.test(ua) && isAndroid && ua.indexOf('Version') < 0;
@@ -477,6 +478,7 @@
 	    isWechat: isWechat,
 	    isWeibo: isWeibo,
 	    isQQ: isQQ,
+	    isQQBrowser: isQQBrowser,
 	    isQzone: isQzone,
 	    isOriginalChrome: isOriginalChrome,
 	    isSafari: isSafari
@@ -862,7 +864,8 @@
 
 	      if (browser.isIos) {
 	        // 近期ios版本qq禁止了scheme和universalLink唤起app，安卓不受影响 - 18年12月23日
-	        if (browser.isWechat || browser.isQQ) {
+	        // ios qq浏览器禁止了scheme和universalLink - 2019年5月1日
+	        if (browser.isWechat || browser.isQQ || browser.isQQBrowser) {
 	          evokeByLocation(appstore);
 	        } else if (getIOSVersion() < 9) {
 	          evokeByIFrame(schemeURL);

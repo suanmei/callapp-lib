@@ -16,6 +16,7 @@ export function getBrowser() {
   const isWechat = /micromessenger\/([\d.]+)/i.test(ua);
   const isWeibo = /(weibo).*weibo__([\d.]+)/i.test(ua);
   const isQQ = /qq\/([\d.]+)/i.test(ua);
+  const isQQBrowser = /(qqbrowser)\/([\d.]+)/i.test(ua);
   const isQzone = /qzone\/.*_qz_([\d.]+)/i.test(ua);
   // 安卓 chrome 浏览器，很多 app 都是在 chrome 的 ua 上进行扩展的
   const isOriginalChrome = /chrome\/[\d.]+ Mobile Safari\/[\d.]+/i.test(ua) && isAndroid && ua.indexOf('Version') < 0;
@@ -29,6 +30,7 @@ export function getBrowser() {
     isWechat,
     isWeibo,
     isQQ,
+    isQQBrowser,
     isQzone,
     isOriginalChrome,
     isSafari,
