@@ -56,11 +56,13 @@ callLib.open({
 });
 ```
 
-## Example
+## Demo
 
-请扫描下方二维码，或访问[示例文件](https://github.com/suanmei/callapp-lib/blob/master/example/index.html)
+请访问[demo页面]()，或访问[demo文件](https://github.com/suanmei/callapp-lib/blob/master/example/index.html)
 
-![示例页面二维码](https://github.com/suanmei/callapp-lib/blob/master/screenshots/example-qrcode.png)
+如果你在使用移动端，可以扫描下方二维码:
+
+![示例页面二维码](https://raw.githubusercontent.com/suanmei/callapp-lib/master/screenshots/example-qrcode.png)
 
 ## Options
 
@@ -73,7 +75,7 @@ callLib.open({
 类型: `object`  
 必填: ✅
 
-用来配置 URL Scheme 所必须的那些字段。
+用来配置 URL Scheme 所必须的那些v字段。
 
 + protocol 
 
