@@ -60,7 +60,7 @@ callLib.open({
 
 请扫描下方二维码，或访问[示例文件](https://github.com/suanmei/callapp-lib/blob/master/example/index.html)
 
-![示例页面二维码](https://github.com/suanmei/callapp-lib/blob/master/screenshots/qrcode.png)
+![示例页面二维码](https://github.com/suanmei/callapp-lib/blob/master/screenshots/example-qrcode.png)
 
 ## Options
 
