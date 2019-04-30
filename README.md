@@ -58,11 +58,11 @@ callLib.open({
 
 ## Demo
 
-请访问[demo页面]()，或访问[demo文件](https://github.com/suanmei/callapp-lib/blob/master/example/index.html)
+请访问[demo页面](https://rawcdn.githack.com/suanmei/callapp-lib/ff770dd976451d9358aadc7e41e2e3645df63167/example/index.html)，或访问[demo文件](https://github.com/suanmei/callapp-lib/blob/master/example/index.html)
 
 如果你在使用移动端，可以扫描下方二维码:
 
-![示例页面二维码](https://raw.githubusercontent.com/suanmei/callapp-lib/master/screenshots/example-qrcode.png)
+![示例页面二维码](https://raw.githubusercontent.com/suanmei/callapp-lib/master/screenshots/qrcode.png)
 
 ## Options
 
