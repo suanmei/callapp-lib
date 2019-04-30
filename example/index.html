@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>callapp-lib示例</title>
+  <style>
+    #call-button {
+      
+    }
+  </style>
+</head>
+<body>
+  <div id='call-button'>点击唤起电流App</div>
+
+  <script src='https://unpkg.com/callapp-lib@1.7.3/dist/index.umd.js'></script>
+  <script>
+    const option = {
+      scheme: {
+        protocol: 'ykshortvideo',
+      },
+      outChain: {
+        protocal: 'ykshortvideo',
+        path: 'temporary',
+        key: 'url',
+      },
+      intent: {
+        package: 'com.youku.shortvideo',
+        scheme: 'ykshortvideo',
+      },
+      universal: {
+        host: 'flash-link.youku.com',
+        pathKey: 'action',
+      },
+      appstore: 'https://itunes.apple.com/cn/app/id1383186862',
+      yingyongbao: '//a.app.qq.com/o/simple.jsp?pkgname=com.youku.shortvideo',
+      fallback: 'https://dianliu.youku.com/service/download',
+      timeout: 2000,
+    };
+    const lib = new CallApp(option);
+    const callButton = document.querySelector('#call-button');
+
+    callButton.addEventListener('click', () => {
+      lib.open({
+        path: 'home',
+      });
+    });
+  </script>
+</body>
+</html>
