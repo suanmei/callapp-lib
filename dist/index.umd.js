@@ -523,7 +523,9 @@
 	 */
 	function buildScheme(config, options) {
 	  var path = config.path,
-	      param = config.param;
+	      param = config.param,
+	      _config$fragment = config.fragment,
+	      fragment = _config$fragment === undefined ? '' : _config$fragment;
 	  var customBuildScheme = options.buildScheme;
 
 
@@ -543,8 +545,9 @@
 	    return key + '=' + param[key];
 	  }).join('&') : '';
 	  var urlQuery = query ? '?' + query : '';
+	  var urlFragment = fragment && fragment[0] !== '#' ? '#' + fragment : fragment;
 
-	  return protocol + '://' + hostPort + path + urlQuery;
+	  return protocol + '://' + hostPort + path + urlQuery + urlFragment;
 	}
 
 	/**

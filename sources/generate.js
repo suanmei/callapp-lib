@@ -6,7 +6,7 @@
  * @memberof CallApp
  */
 export function buildScheme(config, options) {
-  const { path, param } = config;
+  const { path, param, fragment = '' } = config;
   const { buildScheme: customBuildScheme } = options;
 
   if (typeof customBuildScheme !== 'undefined') {
@@ -19,8 +19,9 @@ export function buildScheme(config, options) {
   const hostPort = host ? `${host}${portPart}/` : '';
   const query = typeof param !== 'undefined' ? Object.keys(param).map(key => `${key}=${param[key]}`).join('&') : '';
   const urlQuery = query ? `?${query}` : '';
+  const urlFragment = fragment && fragment[0] !== '#' ? '#' + fragment : fragment;
 
-  return `${protocol}://${hostPort}${path}${urlQuery}`;
+  return `${protocol}://${hostPort}${path}${urlQuery}${urlFragment}`;
 }
 
 /**
