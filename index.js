@@ -91,7 +91,7 @@ class CallApp {
       intent,
     } = this.options;
 
-    const { callback } = config;
+    const { callback, fallCall } = config;
     const supportUniversal = typeof universal !== 'undefined';
     const schemeURL = this.generateScheme(config);
     let checkOpenFall = null;
@@ -136,6 +136,9 @@ class CallApp {
     }
 
     if (!checkOpenFall) return;
+
+    // 唤端失败不一定要跳转页面的情况，但是需要处理别的逻辑
+    checkOpenFall = fallCall || checkOpenFall;
 
     checkOpenFall.call(this);
   }

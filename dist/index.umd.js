@@ -22,7 +22,7 @@
 	});
 
 	var _core = createCommonjsModule(function (module) {
-	var core = module.exports = { version: '2.5.7' };
+	var core = module.exports = { version: '2.6.9' };
 	if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
 	});
 	var _core_1 = _core.version;
@@ -278,7 +278,7 @@
 	})('versions', []).push({
 	  version: _core.version,
 	  mode: _library ? 'pure' : 'global',
-	  copyright: '© 2018 Denis Pushkarev (zloirock.ru)'
+	  copyright: '© 2019 Denis Pushkarev (zloirock.ru)'
 	});
 	});
 
@@ -347,6 +347,7 @@
 
 
 
+
 	var $assign = Object.assign;
 
 	// should work with symbols and should have deterministic property order (V8 bug)
@@ -371,7 +372,10 @@
 	    var length = keys.length;
 	    var j = 0;
 	    var key;
-	    while (length > j) if (isEnum.call(S, key = keys[j++])) T[key] = S[key];
+	    while (length > j) {
+	      key = keys[j++];
+	      if (!_descriptors || isEnum.call(S, key)) T[key] = S[key];
+	    }
 	  } return T;
 	} : $assign;
 
@@ -852,7 +856,8 @@
 	          appstore = _options.appstore,
 	          logFunc = _options.logFunc,
 	          intent = _options.intent;
-	      var callback = config.callback;
+	      var callback = config.callback,
+	          fallCall = config.fallCall;
 
 	      var supportUniversal = typeof universal !== 'undefined';
 	      var schemeURL = this.generateScheme(config);
@@ -898,6 +903,9 @@
 	      }
 
 	      if (!checkOpenFall) return;
+
+	      // 唤端失败不一定要跳转页面的情况，但是需要处理别的逻辑
+	      checkOpenFall = fallCall || checkOpenFall;
 
 	      checkOpenFall.call(this);
 	    }
