@@ -22,7 +22,7 @@
 	});
 
 	var _core = createCommonjsModule(function (module) {
-	var core = module.exports = { version: '2.5.7' };
+	var core = module.exports = { version: '2.6.9' };
 	if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
 	});
 	var _core_1 = _core.version;
@@ -278,7 +278,7 @@
 	})('versions', []).push({
 	  version: _core.version,
 	  mode: _library ? 'pure' : 'global',
-	  copyright: '© 2018 Denis Pushkarev (zloirock.ru)'
+	  copyright: '© 2019 Denis Pushkarev (zloirock.ru)'
 	});
 	});
 
@@ -347,6 +347,7 @@
 
 
 
+
 	var $assign = Object.assign;
 
 	// should work with symbols and should have deterministic property order (V8 bug)
@@ -371,7 +372,10 @@
 	    var length = keys.length;
 	    var j = 0;
 	    var key;
-	    while (length > j) if (isEnum.call(S, key = keys[j++])) T[key] = S[key];
+	    while (length > j) {
+	      key = keys[j++];
+	      if (!_descriptors || isEnum.call(S, key)) T[key] = S[key];
+	    }
 	  } return T;
 	} : $assign;
 
@@ -450,8 +454,16 @@
 	 * 获取 ios 大版本号
 	 */
 	function getIOSVersion() {
-	  var verion = navigator.appVersion.match(/OS (\d+)_(\d+)_?(\d+)?/);
-	  return parseInt(verion[1], 10);
+	  var version = navigator.appVersion.match(/OS (\d+)_(\d+)_?(\d+)?/);
+	  return parseInt(version[1], 10);
+	}
+
+	/**
+	 * 获取 微信 版本号
+	 */
+	function getWeChatVersion() {
+	  var version = navigator.appVersion.match(/micromessenger\/(\d+\.\d+\.\d+)/i);
+	  return version[1];
 	}
 
 	/**
@@ -865,7 +877,8 @@
 	      if (browser.isIos) {
 	        // 近期ios版本qq禁止了scheme和universalLink唤起app，安卓不受影响 - 18年12月23日
 	        // ios qq浏览器禁止了scheme和universalLink - 2019年5月1日
-	        if (browser.isWechat || browser.isQQ || browser.isQQBrowser) {
+	        // ios 微信自 7.0.5 版本放开了 Universal Link 的限制
+	        if (browser.isWechat && getWeChatVersion() < '7.0.5' || browser.isQQ || browser.isQQBrowser) {
 	          evokeByLocation(appstore);
 	        } else if (getIOSVersion() < 9) {
 	          evokeByIFrame(schemeURL);

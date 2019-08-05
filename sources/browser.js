@@ -2,8 +2,16 @@
  * 获取 ios 大版本号
  */
 export function getIOSVersion() {
-  const verion = navigator.appVersion.match(/OS (\d+)_(\d+)_?(\d+)?/);
-  return parseInt(verion[1], 10);
+  const version = navigator.appVersion.match(/OS (\d+)_(\d+)_?(\d+)?/);
+  return parseInt(version[1], 10);
+}
+
+/**
+ * 获取 微信 版本号
+ */
+export function getWeChatVersion() {
+  const version = navigator.appVersion.match(/micromessenger\/(\d+\.\d+\.\d+)/i);
+  return version[1];
 }
 
 /**
