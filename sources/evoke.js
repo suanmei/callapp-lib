@@ -37,7 +37,7 @@ function isPageHidden() {
 function getVisibilityChangeProperty() {
   const prefix = getPagePropertyPrefix();
   if (prefix === false) return false;
-
+  
   return `${prefix}visibilitychange`;
 }
 
@@ -100,8 +100,9 @@ export function checkOpen(cb, timeout) {
 
     return;
   }
-
-  window.addEventListener('pagehide', () => {
+  const _handle = () => {
     clearTimeout(timer);
-  });
+  }
+  window.addEventListener('pagehide', _handle);
+  window.addEventListener('unload', _handle)
 }
