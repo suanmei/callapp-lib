@@ -1,14 +1,14 @@
 /**
  * @author suanmei <mr_suanmei@163.com>
  */
-import { getIOSVersion, getWeChatVersion, getBrowser } from './sources/browser';
-import * as generate from './sources/generate';
+import { getIOSVersion, getWeChatVersion, getBrowser } from './browser';
+import * as generate from './generate';
 import {
   evokeByLocation,
   evokeByIFrame,
   evokeByTagA,
   checkOpen,
-} from './sources/evoke';
+} from './evoke';
 
 class CallApp {
   /**
@@ -84,12 +84,7 @@ class CallApp {
   open(config) {
     const browser = getBrowser();
 
-    const {
-      universal,
-      appstore,
-      logFunc,
-      intent,
-    } = this.options;
+    const { universal, appstore, logFunc, intent } = this.options;
 
     const { callback } = config;
     const supportUniversal = typeof universal !== 'undefined';
@@ -104,9 +99,13 @@ class CallApp {
       // 近期ios版本qq禁止了scheme和universalLink唤起app，安卓不受影响 - 18年12月23日
       // ios qq浏览器禁止了scheme和universalLink - 2019年5月1日
       // ios 微信自 7.0.5 版本放开了 Universal Link 的限制
-      if ((browser.isWechat && getWeChatVersion() < '7.0.5') || browser.isQQ || browser.isQQBrowser) {
+      if (
+        (browser.isWechat && getWeChatVersion() < '7.0.5') ||
+        browser.isQQ ||
+        browser.isQQBrowser
+      ) {
         evokeByLocation(appstore);
-      } else if ((getIOSVersion() < 9)) {
+      } else if (getIOSVersion() < 9) {
         evokeByIFrame(schemeURL);
         checkOpenFall = this.fallToAppStore;
       } else if (!supportUniversal) {
@@ -115,7 +114,7 @@ class CallApp {
       } else {
         evokeByLocation(this.generateUniversalLink(config));
       }
-    // Android
+      // Android
     } else if (browser.isWechat) {
       evokeByLocation(this.generateYingYongBao(config));
     } else if (browser.isOriginalChrome) {
