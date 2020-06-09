@@ -1,52 +1,36 @@
-import resolve from 'rollup-plugin-node-resolve';
-import commonjs from 'rollup-plugin-commonjs';
-import babel from 'rollup-plugin-babel';
-import { eslint } from 'rollup-plugin-eslint';
-import { uglify } from 'rollup-plugin-uglify';
+import resolve from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
+import babel from '@rollup/plugin-babel';
+import pkg from './package.json';
 
-export default [{
-  input: 'index.js',
-  output: {
-    format: 'umd',
-    name: 'CallApp',
-    file: 'dist/index.umd.min.js',
-  },
-  plugins: [
-    resolve({
-      jsnext: true,
-      main: true,
-      browser: true,
-    }),
-    commonjs(),
-    eslint({
-      exclude: 'node_modules/**',
-    }),
-    babel({
-      exclude: 'node_modules/**',
-      runtimeHelpers: true,
-    }),
-    uglify(),
+const input = 'src/index.ts';
+const extensions = ['.js', '.ts'];
+
+export default {
+  input,
+  output: [
+    {
+      file: pkg.main,
+      format: 'cjs',
+    },
+    {
+      file: pkg.module,
+      format: 'es',
+    },
+    {
+      file: pkg.browser,
+      format: 'iife',
+      name: 'CallApp',
+    },
   ],
-}, {
-  input: 'index.js',
-  output: {
-    format: 'umd',
-    name: 'CallApp',
-    file: 'dist/index.umd.js',
-  },
+  external: [],
   plugins: [
-    resolve({
-      jsnext: true,
-      main: true,
-      browser: true,
-    }),
+    resolve({ extensions }),
     commonjs(),
-    eslint({
-      exclude: 'node_modules/**',
-    }),
     babel({
-      exclude: 'node_modules/**',
-      runtimeHelpers: true,
+      extensions,
+      include: ['src/**/*'],
+      babelHelpers: 'bundled',
     }),
   ],
-}];
+};
