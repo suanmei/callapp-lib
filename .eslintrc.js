@@ -1,11 +1,31 @@
 module.exports = {
-  "env": {
-    "browser": true,
+  extends: ['airbnb-base', 'plugin:import/typescript', 'plugin:unicorn/recommended', 'prettier'],
+  plugins: ['prettier', 'unicorn'],
+  env: {
+    node: true,
+    browser: true,
   },
-  "extends": "airbnb-base",
-  'rules': {
-    "import/no-extraneous-dependencies": ["error", {
-      "devDependencies": true,
-    }],
-  }
+  rules: {
+    'import/no-extraneous-dependencies': ['error', { peerDependencies: true }],
+    'prettier/prettier': 'error',
+    'unicorn/prevent-abbreviations': 'off',
+  },
+  overrides: [
+    {
+      files: ['*.ts'],
+      parser: '@typescript-eslint/parser',
+      plugins: ['@typescript-eslint'],
+      extends: [
+        'plugin:@typescript-eslint/eslint-recommended',
+        'plugin:@typescript-eslint/recommended',
+        'prettier/@typescript-eslint',
+      ],
+      rules: {
+        '@typescript-eslint/no-explicit-any': 'off',
+        'no-param-reassign': 'off',
+        // airbnb 配置导致 tsx 文件引用一直报错
+        'import/extensions': ['error', 'ignorePackages', { ts: 'never' }],
+      },
+    },
+  ],
 };
