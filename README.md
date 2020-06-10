@@ -64,6 +64,10 @@ callLib.open({
 
 ![示例页面二维码](https://raw.githubusercontent.com/suanmei/callapp-lib/master/screenshots/demo-qrcode.png)
 
+## 答疑群
+
+![答疑群](https://gw.alicdn.com/tfs/TB1pM.hJFP7gK0jSZFjXXc5aXXa-750-990.jpg)
+
 ## Options
 
 实例化过程中，需要传递一个 options 对象给类，options 对象各属性需要严格按照下面的格式。
