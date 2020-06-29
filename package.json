@@ -17,7 +17,7 @@
     "check-types": "tsc --noEmit",
     "lint": "npm run lint-eslint & npm run check-types",
     "declare-type": "tsc --emitDeclarationOnly",
-    "build": "rollup -c & npm run declare-type"
+    "build": "npm run declare-type & rollup -c"
   },
   "husky": {
     "hooks": {
@@ -59,15 +59,16 @@
     "@rollup/plugin-node-resolve": "^8.0.1",
     "@typescript-eslint/eslint-plugin": "^3.1.0",
     "@typescript-eslint/parser": "^3.1.0",
-    "eslint": "^6.8.0",
-    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint": "^7.3.1",
+    "eslint-config-airbnb-base": "^14.2.0",
     "eslint-config-prettier": "^6.11.0",
-    "eslint-plugin-import": "^2.21.1",
+    "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-prettier": "^3.1.3",
     "eslint-plugin-unicorn": "^20.1.0",
     "husky": "^1.1.1",
     "prettier": "^2.0.5",
     "rollup": "^2.15.0",
     "typescript": "^3.9.5"
-  }
+  },
+  "dependencies": {}
 }

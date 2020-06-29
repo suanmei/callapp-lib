@@ -1,3 +1,4 @@
+export declare const semverCompare: (verionA: string, versionB: string) => -1 | 0 | 1;
 /**
  * 获取 ios 大版本号
  */

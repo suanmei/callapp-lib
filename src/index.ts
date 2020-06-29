@@ -78,7 +78,7 @@ class CallApp {
       // ios qq浏览器禁止了scheme和universalLink - 2019年5月1日
       // ios 微信自 7.0.5 版本放开了 Universal Link 的限制
       if (
-        (Browser.isWechat && Browser.getWeChatVersion() < '7.0.5') ||
+        (Browser.isWechat && Browser.semverCompare(Browser.getWeChatVersion(), '7.0.5') === -1) ||
         Browser.isQQ ||
         Browser.isQQBrowser
       ) {

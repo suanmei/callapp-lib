@@ -6,6 +6,7 @@ module.exports = {
     browser: true,
   },
   rules: {
+    'no-plusplus': 'off',
     'import/no-extraneous-dependencies': ['error', { peerDependencies: true }],
     'prettier/prettier': 'error',
     'unicorn/prevent-abbreviations': 'off',
