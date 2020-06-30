@@ -56,14 +56,6 @@ callLib.open({
 });
 ```
 
-## Demo
-
-请访问[demo 页面](https://raw.githack.com/suanmei/callapp-lib/master/example/index.html)，或访问[demo 文件](https://github.com/suanmei/callapp-lib/blob/master/example/index.html)
-
-如果你在使用移动端，可以扫描下方二维码:
-
-![示例页面二维码](https://raw.githubusercontent.com/suanmei/callapp-lib/master/screenshots/demo-qrcode.png)
-
 ## 答疑群
 
 ![答疑群](https://gw.alicdn.com/tfs/TB1pM.hJFP7gK0jSZFjXXc5aXXa-750-990.jpg)
