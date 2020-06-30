@@ -2703,6 +2703,11 @@ call-me-maybe@^1.0.1:
   resolved "https://registry.yarnpkg.com/call-me-maybe/-/call-me-maybe-1.0.1.tgz#26d208ea89e37b5cbde60250a15f031c16a4d66b"
   integrity sha1-JtII6onje1y95gJQoV8DHBak1ms=
 
+callapp-lib@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/callapp-lib/-/callapp-lib-3.0.0.tgz#16d8b54505c7a1075014454b6156d8070e214f7c"
+  integrity sha512-PCgIns+bpcbby5PtCVIpJqDnHpdccGVtwgJO0gPM6+jnWgTDQ3MXb5vhwviVakYJvtifqLfYPebMcvAMQl4BWA==
+
 caller-callsite@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/caller-callsite/-/caller-callsite-2.0.0.tgz#847e0fce0a223750a9a027c54b33731ad3154134"

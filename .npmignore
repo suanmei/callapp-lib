@@ -3,6 +3,4 @@ node_modules
 .eslintcache
 
 example
-screenshots
-sources
-index.js
+src
