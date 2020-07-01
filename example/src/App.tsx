@@ -4,24 +4,19 @@ import './App.css';
 
 const option = {
   scheme: {
-    protocol: 'ykshortvideo',
-  },
-  outChain: {
-    protocol: 'ykshortvideo',
-    path: 'temporary',
-    key: 'url',
+    protocol: 'youku',
   },
   intent: {
-    package: 'com.youku.shortvideo',
-    scheme: 'ykshortvideo',
+    package: 'com.youku.phone',
+    scheme: 'youku',
   },
   universal: {
-    host: 'flash-link.youku.com',
+    host: 'acz-jump.youku.com/wow/ykpage/act/ulink',
     pathKey: 'action',
   },
-  appstore: 'https://itunes.apple.com/cn/app/id1383186862',
-  yingyongbao: '//a.app.qq.com/o/simple.jsp?pkgname=com.youku.shortvideo',
-  fallback: 'https://dianliu.youku.com/service/download',
+  appstore: 'https://itunes.apple.com/cn/app/id336141475',
+  yingyongbao: '//a.app.qq.com/o/simple.jsp?pkgname=com.youku.phone',
+  fallback: 'https://hudong.vip.youku.com/act/download.html',
   timeout: 2000,
 };
 
