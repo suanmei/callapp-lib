@@ -14,7 +14,7 @@ const option = {
     host: 'oia.zhihu.com/question/270839820/answer/477722658',
     pathKey: 'action',
   },
-  appstore: 'itms-apps://itunes.apple.com/app/apple-store/id432274380',
+  appstore: 'https://itunes.apple.com/cn/app/id432274380',
   yingyongbao: '//a.app.qq.com/o/simple.jsp?pkgname=com.zhihu.android',
   fallback: 'https://oia.zhihu.com/',
   timeout: 2000,
@@ -64,18 +64,18 @@ function App() {
           evokeByLocation('zhihu://');
         }}
       >
-        schema - mock A
+        schema - location
       </button>
       <button
         onClick={() => {
           evokeByLocation(lib.generateIntent({ path: '' }));
         }}
       >
-        intent - mock A
+        intent - location
       </button>
       <button
         onClick={() => {
-          evokeByLocation('https://oia.zhihu.com/question/270839820/answer/477722658');
+          evokeByLocation('https://flash-link.youku.com');
         }}
       >
         universal-link

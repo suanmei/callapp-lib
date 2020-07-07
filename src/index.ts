@@ -1,6 +1,6 @@
 import * as Browser from './browser';
 import * as generate from './generate';
-import { evokeByLocation, evokeByIFrame, evokeByTagA, checkOpen } from './evoke';
+import { evokeByLocation, evokeByIFrame, checkOpen } from './evoke';
 import { CallappConfig, CallappOptions } from './types';
 
 class CallApp {
@@ -74,35 +74,39 @@ class CallApp {
     }
 
     if (Browser.isIos) {
-      // 近期ios版本qq禁止了scheme和universalLink唤起app，安卓不受影响 - 18年12月23日
-      // ios qq浏览器禁止了scheme和universalLink - 2019年5月1日
+      // ios qq 禁止了 scheme 和 universalLink 唤起app，安卓不受影响 - 18年12月23日
+      // ios qq 浏览器禁止了 universalLink - 2019年5月1日
       // ios 微信自 7.0.5 版本放开了 Universal Link 的限制
+      // ios 微博禁止了 universalLink
       if (
         (Browser.isWechat && Browser.semverCompare(Browser.getWeChatVersion(), '7.0.5') === -1) ||
         Browser.isQQ ||
-        Browser.isQQBrowser
+        Browser.isWeibo
       ) {
         evokeByLocation(appstore);
       } else if (Browser.getIOSVersion() < 9) {
         evokeByIFrame(schemeURL);
         checkOpenFall = this.fallToAppStore;
-      } else if (!supportUniversal) {
+      } else if (!supportUniversal || Browser.isQQBrowser || Browser.isQzone) {
         evokeByLocation(schemeURL);
         checkOpenFall = this.fallToAppStore;
       } else {
         evokeByLocation(this.generateUniversalLink(config));
       }
       // Android
-    } else if (Browser.isWechat) {
+      // 在微信中且配置了应用宝链接
+    } else if (Browser.isWechat && typeof this.options.yingyongbao !== 'undefined') {
       evokeByLocation(this.generateYingYongBao(config));
     } else if (Browser.isOriginalChrome) {
       if (typeof intent !== 'undefined') {
         evokeByLocation(this.generateIntent(config));
       } else {
-        // scheme 在 andriod chrome 25+ 版本上必须手势触发
-        evokeByTagA(schemeURL);
+        // scheme 在 andriod chrome 25+ 版本上iframe无法正常拉起
+        evokeByLocation(schemeURL);
         checkOpenFall = this.fallToFbUrl;
       }
+    } else if (Browser.isWechat || Browser.isBaidu || Browser.isWeibo || Browser.isQzone) {
+      evokeByLocation(this.options.fallback);
     } else {
       evokeByIFrame(schemeURL);
       checkOpenFall = this.fallToFbUrl;

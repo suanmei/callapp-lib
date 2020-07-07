@@ -9,6 +9,7 @@ module.exports = {
     'no-plusplus': 'off',
     'import/no-extraneous-dependencies': ['error', { peerDependencies: true }],
     'prettier/prettier': 'error',
+    'unicorn/prefer-includes': 'off',
     'unicorn/prevent-abbreviations': 'off',
   },
   overrides: [
