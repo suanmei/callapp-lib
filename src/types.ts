@@ -21,7 +21,7 @@ export interface CallappOptions {
     pathKey: string;
   };
   appstore: string;
-  yingyongbao: string;
+  yingyongbao?: string;
   fallback: string;
   timeout?: number;
   logFunc?: () => void;

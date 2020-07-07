@@ -159,9 +159,9 @@ APP 的 App Store 地址，例： `https://itunes.apple.com/cn/app/id1383186862`
 ### yingyongbao
 
 类型: `string`  
-必填: ✅
+必填: ❎
 
-APP 的应用宝地址，例：`'//a.app.qq.com/o/simple.jsp?pkgname=com.youku.shortvideo'`。
+APP 的应用宝地址，例：`'//a.app.qq.com/o/simple.jsp?pkgname=com.youku.shortvideo'`。如果不填写，则安卓微信中会直接跳转 fallback
 
 ### timeout
 
