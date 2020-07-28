@@ -32,13 +32,8 @@ callapp-lib 同样支持 `script` 加载，你可以使用下面的 **cdn 文件
 
 or
 
-<!-- 具体某一版本，本例中是 2.1.5 ，下载速度较上面快一些，因为上面的地址会有 302 -->
-<script src="https://unpkg.com/callapp-lib@2.1.5/dist/index.umd.js"></script>
-
-or
-
-<!-- 这是压缩版本，文件体积会小 1/2 左右，下载速度最快，生产环境建议使用这个 -->
-<script src="https://unpkg.com/callapp-lib@2.1.5/dist/index.umd.min.js"></script>
+<!-- 具体某一版本，本例中是 3.1.1 ，下载速度较上面快一些，因为上面的地址会有 302 -->
+<script src="https://unpkg.com/callapp-lib@3.1.1/dist/index.umd.js"></script>
 ```
 
 callapp-lib 中传递出来的是一个类，你需要将它实例化，然后才能去调用实例对象的方法。
