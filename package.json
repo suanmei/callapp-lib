@@ -1,6 +1,6 @@
 {
   "name": "callapp-lib",
-  "version": "3.1.1",
+  "version": "3.1.2",
   "description": "call native webview from webpage",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
