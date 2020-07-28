@@ -1,6 +1,6 @@
 {
   "name": "callapp-lib",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "call native webview from webpage",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
@@ -50,6 +50,7 @@
     "@babel/core": "^7.10.2",
     "@babel/plugin-proposal-class-properties": "^7.10.1",
     "@babel/plugin-proposal-object-rest-spread": "^7.10.1",
+    "@babel/plugin-transform-object-assign": "^7.10.4",
     "@babel/preset-env": "^7.10.2",
     "@babel/preset-typescript": "^7.10.1",
     "@commitlint/cli": "^8.0.0",
