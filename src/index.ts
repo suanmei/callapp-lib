@@ -1,6 +1,6 @@
 import * as Browser from './browser';
 import * as generate from './generate';
-import { evokeByLocation, evokeByIFrame, checkOpen } from './evoke';
+import { evokeByLocation, evokeByTagA, evokeByIFrame, checkOpen } from './evoke';
 import { CallappConfig, CallappOptions } from './types';
 
 class CallApp {
@@ -74,21 +74,20 @@ class CallApp {
     }
 
     if (Browser.isIos) {
-      // ios qq 禁止了 scheme 和 universalLink 唤起app，安卓不受影响 - 18年12月23日
-      // ios qq 浏览器禁止了 universalLink - 2019年5月1日
+      // ios qq 禁止了 universalLink 唤起app，安卓不受影响 - 18年12月23日
+      // ios qq 浏览器禁止了 universalLink - 19年5月1日
       // ios 微信自 7.0.5 版本放开了 Universal Link 的限制
       // ios 微博禁止了 universalLink
       if (
         (Browser.isWechat && Browser.semverCompare(Browser.getWeChatVersion(), '7.0.5') === -1) ||
-        Browser.isQQ ||
         Browser.isWeibo
       ) {
         evokeByLocation(appstore);
       } else if (Browser.getIOSVersion() < 9) {
         evokeByIFrame(schemeURL);
         checkOpenFall = this.fallToAppStore;
-      } else if (!supportUniversal || Browser.isQQBrowser || Browser.isQzone) {
-        evokeByLocation(schemeURL);
+      } else if (!supportUniversal || Browser.isQQ || Browser.isQQBrowser || Browser.isQzone) {
+        evokeByTagA(schemeURL);
         checkOpenFall = this.fallToAppStore;
       } else {
         evokeByLocation(this.generateUniversalLink(config));

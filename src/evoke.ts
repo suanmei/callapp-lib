@@ -30,12 +30,24 @@ function isPageHidden(): boolean {
 
 /**
  * 通过 top.location.href 跳转
- * 使用 top 是因为在 qq 中打开的页面不属于顶级页面(iframe级别)
- * 自身 url 变更无法触动唤端操作
  * @param {string}} [uri] - 需要打开的地址
  */
 export function evokeByLocation(uri: string): void {
   window.top.location.href = uri;
+}
+
+/**
+ * 通过 A 标签唤起
+ * @param {string} uri - 需要打开的地址
+ */
+export function evokeByTagA(uri: string): void {
+  const tagA = document.createElement('a');
+
+  tagA.setAttribute('href', uri);
+  tagA.style.display = 'none';
+  document.body.append(tagA);
+
+  tagA.click();
 }
 
 /**

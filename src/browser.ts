@@ -2,7 +2,8 @@ const ua = navigator.userAgent || '';
 
 // 版本号比较
 export const semverCompare = (verionA: string, versionB: string): -1 | 0 | 1 => {
-  const { isNaN } = Number;
+  // eslint-disable-next-line no-restricted-properties
+  const { isNaN } = window;
   const splitA = verionA.split('.');
   const splitB = versionB.split('.');
 
@@ -56,8 +57,3 @@ export const isQzone = /qzone\/.*_qz_([\d.]+)/i.test(ua);
 // 安卓 chrome 浏览器，包含 原生chrome浏览器、三星自带浏览器、360浏览器以及早期国内厂商自带浏览器
 export const isOriginalChrome =
   /chrome\/[\d.]+ mobile safari\/[\d.]+/i.test(ua) && isAndroid && ua.indexOf('Version') < 0;
-
-// chrome for ios 和 safari 的区别仅仅是将 Version/<VersionNum> 替换成了 CriOS/<ChromeRevision>
-// ios 上很多 app 都包含 safari 标识，但它们都是以自己的 app 标识开头，而不是 Mozilla
-export const isSafari =
-  /safari\/([\d.]+)$/i.test(ua) && isIos && ua.indexOf('Crios') < 0 && ua.indexOf('Mozilla') === 0;

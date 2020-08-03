@@ -42,6 +42,16 @@ function evokeByLocation(uri: string): void {
   window.location.href = uri;
 }
 
+function evokeByTagA(uri: string): void {
+  const tagA = document.createElement('a');
+
+  tagA.setAttribute('href', uri);
+  tagA.style.display = 'none';
+  document.body.append(tagA);
+
+  tagA.click();
+}
+
 function App() {
   return (
     <div className="App">
@@ -65,6 +75,13 @@ function App() {
         }}
       >
         schema - location
+      </button>
+      <button
+        onClick={() => {
+          evokeByTagA('zhihu://');
+        }}
+      >
+        schema - A Tag
       </button>
       <button
         onClick={() => {
