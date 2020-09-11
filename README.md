@@ -53,7 +53,7 @@ callLib.open({
 
 ## 答疑
 
-对常见的一些问题进行了汇总，如果这些问答无法解决你的疑惑，加钉钉群，按照提问模板进行提问
+对常见的一些问题进行了[汇总](https://www.yuque.com/egm961/nmf9nm/llbg79)，如果这些问答无法解决你的疑惑，加钉钉群，按照提问模板进行提问
 
 <img src="https://gw.alicdn.com/tfs/TB1pM.hJFP7gK0jSZFjXXc5aXXa-750-990.jpg" width="160" />
 
