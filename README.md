@@ -178,7 +178,13 @@ APP 的应用宝地址，例：`'//a.app.qq.com/o/simple.jsp?pkgname=com.youku.s
 类型: `function`  
 必填: ❎
 
+```js
+(status: 'pending' | 'failure') => void;
+```
+
 埋点入口函数。运营同学可能会希望我们在唤端的时候做埋点，将你的埋点函数传递进来，不管唤端成功与否，它都会被执行。当然，你也可以将这个函数另作他用。
+
+这个回调函数会回执行两次，第一次是触发 open 方法，第二次是唤端失败，它有一个入参 status ，它有两个值 `pending` 和 `failure`，分别代表函数触发及唤端失败。
 
 ### buildScheme
 

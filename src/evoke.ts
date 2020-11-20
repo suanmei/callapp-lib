@@ -52,7 +52,7 @@ export function evokeByTagA(uri: string): void {
 
 /**
  * 通过 iframe 唤起
- * @param {string}} [uri] - 需要打开的地址
+ * @param {string} [uri] - 需要打开的地址
  */
 export function evokeByIFrame(uri: string): void {
   if (!iframe) {
@@ -70,11 +70,11 @@ export function evokeByIFrame(uri: string): void {
  * @param cb - 唤端失败回调函数
  * @param timeout
  */
-export function checkOpen(cb: () => void, timeout: number): void {
+export function checkOpen(failure: () => void, timeout: number): void {
   const timer = setTimeout(() => {
     const pageHidden = isPageHidden();
     if (!pageHidden) {
-      cb();
+      failure();
     }
   }, timeout);
 

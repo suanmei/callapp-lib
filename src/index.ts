@@ -32,8 +32,16 @@ class CallApp {
     return generate.generateYingYongBao(config, this.options);
   }
 
-  checkOpen(cb: () => void): void {
-    return checkOpen(cb, this.options.timeout);
+  checkOpen(failure: () => void): void {
+    const { logFunc, timeout } = this.options;
+
+    return checkOpen(() => {
+      if (typeof logFunc !== 'undefined') {
+        logFunc('failure');
+      }
+
+      failure();
+    }, timeout);
   }
 
   // 唤端失败跳转 app store
@@ -63,14 +71,13 @@ class CallApp {
    */
   open(config: CallappConfig): void {
     const { universal, appstore, logFunc, intent } = this.options;
-
     const { callback } = config;
     const supportUniversal = typeof universal !== 'undefined';
     const schemeURL = this.generateScheme(config);
     let checkOpenFall;
 
     if (typeof logFunc !== 'undefined') {
-      logFunc();
+      logFunc('pending');
     }
 
     if (Browser.isIos) {

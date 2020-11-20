@@ -24,7 +24,7 @@ export interface CallappOptions {
   yingyongbao?: string;
   fallback: string;
   timeout?: number;
-  logFunc?: () => void;
+  logFunc?: (status: 'pending' | 'failure') => void;
   buildScheme?: (config: CallappConfig, options: CallappOptions) => string;
 }
 
