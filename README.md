@@ -242,3 +242,11 @@ url scheme 自定义拼接函数，内置的 buildScheme 函数是按照 uri 规
 ### generateUniversalLink
 
 生成 Universal Link，接收参数同 `generateScheme` 方法参数。
+
+
+## 打赏
+
+如果刚好解决了你的问题，如果你心情还不错，如果尚有余粮，可以给作者打赏一杯咖啡哦，爱宁~
+
+<img src="https://gw.alicdn.com/imgextra/i3/O1CN01Mqk09Q1HOAWBMvUt2_!!6000000000747-0-tps-1152-1152.jpg" width="240" />
+
