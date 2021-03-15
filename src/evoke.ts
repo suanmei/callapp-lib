@@ -5,6 +5,8 @@ let visibilityChange: VisibilityChange;
 let iframe: HTMLIFrameElement;
 
 function getSupportedProperty(): void {
+  if (typeof document === 'undefined') return;
+
   if (typeof document.hidden !== 'undefined') {
     // Opera 12.10 and Firefox 18 and later support
     hidden = 'hidden';
@@ -57,7 +59,6 @@ export function evokeByTagA(uri: string): void {
 export function evokeByIFrame(uri: string): void {
   if (!iframe) {
     iframe = document.createElement('iframe');
-    iframe.frameBorder = '0';
     iframe.style.cssText = 'display:none;border:0;width:0;height:0;';
     document.body.append(iframe);
   }
