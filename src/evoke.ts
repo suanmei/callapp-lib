@@ -47,7 +47,7 @@ export function evokeByTagA(uri: string): void {
 
   tagA.setAttribute('href', uri);
   tagA.style.display = 'none';
-  document.body.appendChild(tagA);
+  document.body.append(tagA);
 
   tagA.click();
 }
@@ -60,7 +60,7 @@ export function evokeByIFrame(uri: string): void {
   if (!iframe) {
     iframe = document.createElement('iframe');
     iframe.style.cssText = 'display:none;border:0;width:0;height:0;';
-    document.body.appendChild(iframe);
+    document.body.append(iframe);
   }
 
   iframe.src = uri;

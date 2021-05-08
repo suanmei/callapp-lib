@@ -18,7 +18,7 @@ export interface CallappOptions {
   intent?: Intent;
   universal?: {
     host: string;
-    pathKey: string;
+    pathKey?: string;
   };
   appstore: string;
   yingyongbao?: string;
