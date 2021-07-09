@@ -47,7 +47,9 @@ export function evokeByTagA(uri: string): void {
 
   tagA.setAttribute('href', uri);
   tagA.style.display = 'none';
-  document.body.append(tagA);
+  // append 在 android 6 系统中有兼容性问题
+  // eslint-disable-next-line unicorn/prefer-node-append
+  document.body.appendChild(tagA);
 
   tagA.click();
 }

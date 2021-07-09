@@ -63,21 +63,21 @@ function App() {
       </button>
       <button
         onClick={() => {
-          evoke('zhihu://');
+          evoke('zhihu://question/270839820');
         }}
       >
         schema - iframe
       </button>
       <button
         onClick={() => {
-          evokeByLocation('zhihu://');
+          evokeByLocation('zhihu://question/270839820');
         }}
       >
         schema - location
       </button>
       <button
         onClick={() => {
-          evokeByTagA('zhihu://');
+          evokeByTagA('zhihu://question/270839820');
         }}
       >
         schema - A Tag
