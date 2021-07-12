@@ -80,7 +80,7 @@ class CallApp {
       logFunc('pending');
     }
 
-    if (Browser.isIos) {
+    if (Browser.isIos || Browser.isIpad) {
       // ios qq 禁止了 universalLink 唤起app，安卓不受影响 - 18年12月23日
       // ios qq 浏览器禁止了 universalLink - 19年5月1日
       // ios 微信自 7.0.5 版本放开了 Universal Link 的限制
