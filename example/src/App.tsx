@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import CallApp from 'callapp-lib';
 import './App.css';
 
@@ -12,6 +12,7 @@ const option = {
   },
   universal: {
     host: 'oia.zhihu.com',
+    pathKey: '',
   },
   appstore: 'https://itunes.apple.com/cn/app/id432274380',
   yingyongbao: '//a.app.qq.com/o/simple.jsp?pkgname=com.zhihu.android',
@@ -51,7 +52,7 @@ function evokeByTagA(uri: string): void {
   tagA.click();
 }
 
-function App() {
+const App: FC = () => {
   return (
     <div className="App">
       <button
@@ -105,6 +106,6 @@ function App() {
       </button>
     </div>
   );
-}
+};
 
 export default App;
