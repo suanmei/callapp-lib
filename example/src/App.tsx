@@ -47,7 +47,7 @@ function evokeByTagA(uri: string): void {
 
   tagA.setAttribute('href', uri);
   tagA.style.display = 'none';
-  document.body.append(tagA);
+  document.body.appendChild(tagA);
 
   tagA.click();
 }
