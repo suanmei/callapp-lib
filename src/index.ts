@@ -79,7 +79,7 @@ class CallApp {
     if (typeof logFunc !== 'undefined') {
       logFunc('pending');
     }
-
+    const isSupportWeibo = !!this.options.isSupportWeibo;
     if (Browser.isIos) {
       // ios qq 禁止了 universalLink 唤起app，安卓不受影响 - 18年12月23日
       // ios qq 浏览器禁止了 universalLink - 19年5月1日
@@ -87,7 +87,7 @@ class CallApp {
       // ios 微博禁止了 universalLink
       if (
         (Browser.isWechat && Browser.semverCompare(Browser.getWeChatVersion(), '7.0.5') === -1) ||
-        Browser.isWeibo
+        (Browser.isWeibo && !isSupportWeibo)
       ) {
         evokeByLocation(appstore);
       } else if (Browser.getIOSVersion() < 9) {
@@ -111,7 +111,7 @@ class CallApp {
         evokeByLocation(schemeURL);
         checkOpenFall = this.fallToFbUrl;
       }
-    } else if (Browser.isWechat || Browser.isBaidu || Browser.isWeibo || Browser.isQzone) {
+    } else if (Browser.isWechat || Browser.isBaidu || (Browser.isWeibo && !isSupportWeibo) || Browser.isQzone) {
       evokeByLocation(this.options.fallback);
     } else {
       evokeByIFrame(schemeURL);
