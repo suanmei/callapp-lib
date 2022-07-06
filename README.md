@@ -176,6 +176,13 @@ APP 的 App Store 地址，例： `https://itunes.apple.com/cn/app/id1383186862`
 
 APP 的应用宝地址，例：`'//a.app.qq.com/o/simple.jsp?pkgname=com.youku.shortvideo'`。如果不填写，则安卓微信中会直接跳转 fallback
 
+### isSupportWeibo
+
+类型: `boolean`  
+必填: ❎
+默认值: false
+是否支持微博，默认不支持
+
 ### timeout
 
 类型: `number`  
