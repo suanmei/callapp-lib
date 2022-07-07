@@ -51,6 +51,58 @@ callLib.open({
 });
 ```
 
+## 微信原生标签使用
+
+```html
+<style>
+  #open-app {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+  }
+  .btn {
+    position: relative;
+    width: 100px;
+    height: 40px;
+    background: skyblue;
+  }
+  .btn p {
+    color: #fff;
+    font-size: 14px;
+    line-height: 40px;
+    text-align: center;
+  }
+</style>
+<!-- 标签包裹一层，防止wx注入标签时防止闪烁，id标签默认是定位，所以父级需要relative -->
+<div class="btn">
+  <p>跳转文章</p>
+  <div id="open-app"></div>
+</div>
+```
+
+```js
+const options = {
+  key1: 'xxx',
+  key2: 'xxx',
+};
+const lib = new CallApp(options);
+
+lib.setDomConfig([
+  {
+    id: 'open-app',
+    path: '',
+    height?: 40,
+    param?: {
+      type: 'article',
+      id: 163355,
+    }
+  }
+]);
+```
+
 ## 答疑
 
 对常见的一些问题进行了[汇总](https://www.yuque.com/egm961/nmf9nm/llbg79)，如果这些问答无法解决你的疑惑，加钉钉群，按照提问模板进行提问
@@ -176,6 +228,21 @@ APP 的 App Store 地址，例： `https://itunes.apple.com/cn/app/id1383186862`
 
 APP 的应用宝地址，例：`'//a.app.qq.com/o/simple.jsp?pkgname=com.youku.shortvideo'`。如果不填写，则安卓微信中会直接跳转 fallback
 
+### useWxNative
+
+类型：`boolean`
+必填: ❎
+默认：true
+
+默认微信端使用微信原生标签，微信版本 `8.0.8` 以上版本支持使用
+
+### wxAppid
+
+类型：`string`
+必填: ❎
+
+<p style="color: red">useWxNative: true, 微信内使用原生标签注册，必填。否则不需要</p>
+
 ### isSupportWeibo
 
 类型: `boolean`  
@@ -204,12 +271,14 @@ APP 的应用宝地址，例：`'//a.app.qq.com/o/simple.jsp?pkgname=com.youku.s
 必填: ❎
 
 ```js
-(status: 'pending' | 'failure') => void;
+(status: 'pending' | 'failure', wxTagCalled?) => void;
 ```
 
 埋点入口函数。运营同学可能会希望我们在唤端的时候做埋点，将你的埋点函数传递进来，不管唤端成功与否，它都会被执行。当然，你也可以将这个函数另作他用。
 
 这个回调函数会回执行两次，第一次是触发 open 方法，第二次是唤端失败，它有一个入参 status ，它有两个值 `pending` 和 `failure`，分别代表函数触发及唤端失败。
+
+在微信标签使用中，触发时机是唤端`wx.error|唤端成功|唤端失败`，wxTagCalled 返回相应信息，成功`{errMsg: 'launch'}`，唤端失败返回微信返回的失败信息。wx.error 返回`{errMsg: 'error'}`
 
 ### buildScheme
 
@@ -265,6 +334,29 @@ url scheme 自定义拼接函数，内置的 buildScheme 函数是按照 uri 规
 ### generateUniversalLink
 
 生成 Universal Link，接收参数同 `generateScheme` 方法参数。
+
+### setDomConfig
+
+在微信环境下使用`微信原生标签`进行 app 跳转，其他环境下进行 dom 的点击事件绑定`open`方法
+[微信公众号满足条件](https://developers.weixin.qq.com/doc/oplatform/Mobile_App/WeChat_H5_Launch_APP.html)
+需要微信 jssdk [1.6.0](https://res.wx.qq.com/open/js/jweixin-1.6.0.js) 版本以上
+
+<span style="color: red">注意：</span>
+
+1. wx 注册 config 需要绑定的公众号
+2. 域名需要开放平台绑定的域名
+3. 微信注册 config 需要添加`openTagList: ['wx-open-launch-app']`
+
+- id
+  必填：✅
+  用于微信自定义标签插入,最好根据父级进行定位，如果跳转失败会给该元素绑定点击事件（lib.open）
+
+- height
+  必填：❎
+  默认：40
+  必须设置高度，无固定高度无法点击跳转
+
+- 其他参数同 open 方法
 
 ## 打赏
 
