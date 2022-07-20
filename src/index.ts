@@ -86,6 +86,7 @@ class CallApp {
       if (!obj.isRegister) {
         const { id, height, ...config } = obj.config;
         obj.btn.addEventListener('click', () => {
+          if (Browser.isWechat && this.options.useWxNative && !obj.isWxNativeBtnReady) return;
           this.open(config);
         });
         obj.isRegister = true;
@@ -138,17 +139,22 @@ class CallApp {
     if (index !== -1) {
       throw new Error(`the #${config.id} is not only`);
     }
-
-    this.domList.push({
+    const obj = {
       btn: openapp as HTMLElement,
       config,
       isRegister: false,
-    });
+      isWxNativeBtnReady: false,
+    };
+    this.domList.push(obj);
 
     if (!this.options.useWxNative || !window.wx) return;
     wx.ready(() => {
       openapp.innerHTML = generate.generateWxTag(config, this.options);
       const btn = openapp.firstChild as HTMLElement;
+
+      btn.addEventListener('ready', () => {
+        obj.isWxNativeBtnReady = true;
+      });
 
       btn.addEventListener('launch', (e: Event & WxTagErrorEvent) => {
         this.wxTagCalled(

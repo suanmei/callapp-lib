@@ -13,6 +13,7 @@ export interface domListType {
   btn: HTMLElement;
   config: CallappConfig & WxTagOption;
   isRegister: boolean;
+  isWxNativeBtnReady: boolean;
 }
 
 export interface WxTagErrorEvent {
