@@ -1,4 +1,4 @@
-import { CallappConfig, CallappOptions, Intent } from './types';
+import { CallappConfig, CallappOptions, Intent, WxTagOption } from './types';
 
 // 根据 param 生成 queryString
 function generateQS(param?: Record<string, any>): string {
@@ -85,4 +85,22 @@ export function generateYingYongBao(config: CallappConfig, options: CallappOptio
   const url = generateScheme(config, options);
   // 支持 AppLink
   return `${options.yingyongbao}&android_schema=${encodeURIComponent(url)}`;
+}
+
+// 生成微信tag
+export function generateWxTag(
+  config: CallappConfig & WxTagOption,
+  options: CallappOptions
+): string {
+  const { id, height = 40 } = config;
+  const { wxAppid } = options;
+  return `<wx-open-launch-app id="launch_${id}" appid="${wxAppid}" extinfo="${buildScheme(
+    config,
+    options
+  )}" style="position:absolute;top:0;left:0;right:0;bottom:0;">
+            <script type="text/wxtag-template">
+              <style>.wx-btn{height: ${height}px;opacity: 0;}</style>
+              <div class="wx-btn">立即打开</div>
+            </script>
+          </wx-open-launch-app>`;
 }
