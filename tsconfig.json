@@ -5,7 +5,7 @@
     "module": "commonjs",
     "allowJs": false,
     "declaration": true,
-    "types": [],
+    "types": ["node"],
     "outDir": "dist/type",
     "strict": true,
     "experimentalDecorators": true,

@@ -5,6 +5,8 @@ let visibilityChange: VisibilityChange;
 let iframe: HTMLIFrameElement;
 
 function getSupportedProperty(): void {
+  if (typeof document === 'undefined') return;
+
   if (typeof document.hidden !== 'undefined') {
     // Opera 12.10 and Firefox 18 and later support
     hidden = 'hidden';
@@ -45,7 +47,9 @@ export function evokeByTagA(uri: string): void {
 
   tagA.setAttribute('href', uri);
   tagA.style.display = 'none';
-  document.body.append(tagA);
+  // append 在 android 6 系统中有兼容性问题
+  // eslint-disable-next-line unicorn/prefer-node-append
+  document.body.appendChild(tagA);
 
   tagA.click();
 }
@@ -57,9 +61,8 @@ export function evokeByTagA(uri: string): void {
 export function evokeByIFrame(uri: string): void {
   if (!iframe) {
     iframe = document.createElement('iframe');
-    iframe.frameBorder = '0';
     iframe.style.cssText = 'display:none;border:0;width:0;height:0;';
-    document.body.append(iframe);
+    document.body.appendChild(iframe);
   }
 
   iframe.src = uri;

@@ -1,26 +1,32 @@
 import { CallappConfig, CallappOptions, Intent } from './types';
 
-// 生成基本的 url scheme
-export function buildScheme(config: CallappConfig, options: CallappOptions): string {
-  const { path, param } = config;
-  const { buildScheme: customBuildScheme } = options;
-
-  if (typeof customBuildScheme !== 'undefined') {
-    return customBuildScheme(config, options);
-  }
-
-  const { host, port, protocol } = options.scheme;
-  const portPart = port ? `:${port}` : '';
-  const hostPort = host ? `${host}${portPart}/` : '';
-  const query =
+// 根据 param 生成 queryString
+function generateQS(param?: Record<string, any>): string {
+  const qs =
     typeof param !== 'undefined'
       ? Object.keys(param)
           .map((key) => `${key}=${param[key]}`)
           .join('&')
       : '';
-  const urlQuery = query ? `?${query}` : '';
 
-  return `${protocol}://${hostPort}${path}${urlQuery}`;
+  return qs ? `?${qs}` : '';
+}
+
+// 生成基本的 url scheme
+export function buildScheme(config: CallappConfig, options: CallappOptions): string {
+  const { path, param } = config;
+  const { scheme, buildScheme: customBuildScheme } = options;
+
+  if (typeof customBuildScheme !== 'undefined') {
+    return customBuildScheme(config, options);
+  }
+
+  const { host, port, protocol } = scheme;
+  const portPart = port ? `:${port}` : '';
+  const hostPort = host ? `${host}${portPart}/` : '';
+  const qs = generateQS(param);
+
+  return `${protocol}://${hostPort}${path}${qs}`;
 }
 
 // 生成业务需要的 url scheme（区分是否是外链）
@@ -66,15 +72,12 @@ export function generateUniversalLink(config: CallappConfig, options: CallappOpt
 
   const { host, pathKey } = universal;
   const { path, param } = config;
-  const query =
-    typeof param !== 'undefined'
-      ? Object.keys(param)
-          .map((key) => `${key}=${param[key]}`)
-          .join('&')
-      : '';
-  const urlQuery = query ? `&${query}` : '';
+  const qs = generateQS(param);
 
-  return `https://${host}?${pathKey}=${path}${urlQuery}`;
+  const newUniversalLink = `https://${host}/${path}${qs}`;
+  const oldUniversalLink = `https://${host}?${pathKey}=${path}${qs.replace('?', '&')}`;
+
+  return pathKey ? oldUniversalLink : newUniversalLink;
 }
 
 // 生成 应用宝链接

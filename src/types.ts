@@ -18,10 +18,11 @@ export interface CallappOptions {
   intent?: Intent;
   universal?: {
     host: string;
-    pathKey: string;
+    pathKey?: string;
   };
   appstore: string;
   yingyongbao?: string;
+  isSupportWeibo?:boolean;
   fallback: string;
   timeout?: number;
   logFunc?: (status: 'pending' | 'failure') => void;

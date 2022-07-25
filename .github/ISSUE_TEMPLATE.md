@@ -1,17 +1,17 @@
-+ 版本号: callapp-lib@
++ npm 版本号: 
 
-+ 配置Option: 
++ 配置 Option: 
 
-``` json
- {
-  "scheme": {},
-  "outChain": {},
-  "intent": {},
-  "universal": {},
-  "appstore": "",
-  "yingyongbao": "",
-  "fallback": ""
- }
+``` js
+const option = {
+  scheme: {},
+  outChain: {},
+  intent: {},
+  universal: {},
+  appstore: '',
+  yingyongbao: '',
+  fallback: '',
+};
 ```
 
 + 机型、系统、APP:

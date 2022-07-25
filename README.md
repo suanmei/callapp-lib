@@ -55,7 +55,7 @@ callLib.open({
 
 对常见的一些问题进行了[汇总](https://www.yuque.com/egm961/nmf9nm/llbg79)，如果这些问答无法解决你的疑惑，加钉钉群，按照提问模板进行提问
 
-<img src="https://gw.alicdn.com/tfs/TB1pM.hJFP7gK0jSZFjXXc5aXXa-750-990.jpg" width="160" />
+<img src="https://gw.alicdn.com/imgextra/i2/O1CN01lVbsJe1aFuAlli9Lw_!!6000000003301-2-tps-979-1280.png" width="160" />
 
 ## Options
 
@@ -144,7 +144,23 @@ callapp-lib 2.0.0 版本已移除，原先的 protocol 移入到新增的 scheme
 
 - pathKey
 
-  pathKey 就和前面 Intent 的 key 属性一样，只是这里的 pathKey 是客户端用来提取 path 信息的，以便知道调用的是 APP 的哪个页面。这个值也是需要你和 ios 童鞋协商定下来的。
+  `3.5.0` 版本以后 `pathKey` 非必填项，`pathkey` 填写与不填写代表了 Universal Link 拼接的两种方式。不建议使用 `pathKey` ，因为使用它拼接的 Universal Link 不贴合 URL 设计思想。
+
+  - 不使用 pathKey：客户端提起 path 信息将会从 url 中获取，而不是从 queryString 中获取
+
+    Universal Link 拼接规则:
+
+    ```js
+    const universalLink = `https://${host}/${open方法中的path}?${open方法中param转换的queryString}`;
+    ```
+
+  - 使用 pathKey：pathKey 就和前面 Intent 的 key 属性一样，只是这里的 pathKey 是客户端用来提取 path 信息的，以便知道调用的是 APP 的哪个页面。这个值也是需要你和 ios 童鞋协商定下来的。
+
+    Universal Link 拼接规则:
+
+    ```js
+    const universalLink = `https://${host}?${pathKey}=${open方法中的path}&${open方法中param转换的queryString}`;
+    ```
 
 ### appstore
 
@@ -159,6 +175,13 @@ APP 的 App Store 地址，例： `https://itunes.apple.com/cn/app/id1383186862`
 必填: ❎
 
 APP 的应用宝地址，例：`'//a.app.qq.com/o/simple.jsp?pkgname=com.youku.shortvideo'`。如果不填写，则安卓微信中会直接跳转 fallback
+
+### isSupportWeibo
+
+类型: `boolean`  
+必填: ❎
+默认值: false
+是否支持微博，默认不支持
 
 ### timeout
 
@@ -243,10 +266,8 @@ url scheme 自定义拼接函数，内置的 buildScheme 函数是按照 uri 规
 
 生成 Universal Link，接收参数同 `generateScheme` 方法参数。
 
-
 ## 打赏
 
 如果刚好解决了你的问题，如果你心情还不错，如果尚有余粮，可以给作者打赏一杯咖啡哦，爱宁~
 
 <img src="https://gw.alicdn.com/imgextra/i3/O1CN01Mqk09Q1HOAWBMvUt2_!!6000000000747-0-tps-1152-1152.jpg" width="240" />
-
