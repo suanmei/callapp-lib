@@ -4,6 +4,41 @@ export interface CallappConfig<Params = Record<string, unknown>> {
   callback?: () => void;
 }
 
+export interface WxTagOption {
+  id: string;
+  type?: 'app' | 'minapp';
+  height?: string;
+  btnText?: string;
+}
+
+export interface WeappConfig extends WxTagOption {
+  appid?: string;
+  username?: string;
+  wePath?: string;
+  env?: 'release' | 'develop' | 'trial';
+  extraData?: string;
+}
+
+export interface DomListType {
+  btn: HTMLElement;
+  type: 'app' | 'minapp';
+  config: CallappConfig & WeappConfig;
+  isRegister: boolean;
+  isWxNativeReady: boolean;
+}
+
+export interface WxTagErrorEvent {
+  detail?: WxTagFailure;
+}
+
+export interface WxTagFailure {
+  errMsg?: string;
+  appId?: string;
+  extInfo?: string;
+  // weapp
+  userName?: string;
+  path?: string;
+}
 export interface CallappOptions {
   scheme: {
     protocol: string;
@@ -20,12 +55,15 @@ export interface CallappOptions {
     host: string;
     pathKey?: string;
   };
+  useWxNative?: boolean;
+  wxAppid?: string;
+  weappId?: string;
   appstore: string;
   yingyongbao?: string;
-  isSupportWeibo?:boolean;
+  isSupportWeibo?: boolean;
   fallback: string;
   timeout?: number;
-  logFunc?: (status: 'pending' | 'failure') => void;
+  logFunc?: (status: 'pending' | 'failure', wxTagFailure?: WxTagFailure) => void;
   buildScheme?: (config: CallappConfig, options: CallappOptions) => string;
 }
 

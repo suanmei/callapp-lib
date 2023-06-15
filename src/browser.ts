@@ -26,7 +26,7 @@ export const semverCompare = (verionA: string, versionB: string): -1 | 0 | 1 => 
  * 获取 ios 大版本号
  */
 export const getIOSVersion = (): number => {
-  const version = navigator.appVersion.match(/OS (\d+)_(\d+)_?(\d+)?/) as string[];
+  const version = navigator.appVersion.match(/[ ,OSX] (\d+)_(\d+)_?(\d+)?/) as string[];
   return Number.parseInt(version[1], 10);
 };
 
@@ -40,7 +40,11 @@ export const getWeChatVersion = (): string => {
 
 export const isAndroid = /android/i.test(ua);
 
-export const isIos = /iphone|ipad|ipod/i.test(ua);
+export const isIos = /iphone|ipod/i.test(ua);
+
+export const isIpad =
+  navigator.userAgent.match(/(iPad)/) ||
+  (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 
 export const isWechat = /micromessenger\/([\d.]+)/i.test(ua);
 

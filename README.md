@@ -51,6 +51,71 @@ callLib.open({
 });
 ```
 
+## 微信原生标签使用
+
+```html
+<style>
+  #open-app {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+  }
+  .btn {
+    position: relative;
+    width: 100px;
+    height: 40px;
+    background: skyblue;
+  }
+  .btn p {
+    color: #fff;
+    font-size: 14px;
+    line-height: 40px;
+    text-align: center;
+  }
+</style>
+<!-- 标签包裹一层，防止wx注入标签时防止闪烁，id标签默认是定位，所以父级需要relative -->
+<div class="btn">
+  <p>跳转文章</p>
+  <div id="open-app"></div>
+</div>
+```
+
+```js
+const options = {
+  key1: 'xxx',
+  key2: 'xxx',
+};
+const lib = new CallApp(options);
+
+> 如果使用该方法，需要提供挂载标签，提前进行注册，非click时调用
+
+lib.signup([
+  {
+    id: 'open-app',
+    path: '',
+    height?: '40',
+    param?: {
+      type: 'article',
+      id: 163355,
+    }
+  },
+  {
+    id: 'open-minapp',
+    type: 'minapp', // 'app' | 'minapp' 默认'app'
+    path: '',
+    height?: '40px',
+    appid?: '', // 所需跳转的小程序appid，即小程序对应的以wx开头的id, 不写使用weappId
+    username?: '', // 所需跳转的小程序原始id，即小程序对应的以gh_开头的id（跳转时，有appid会优先使用appid，没有appid才会使用username）
+    wePath?: '', // 所需跳转的小程序内页面路径及参数
+    envVersion?: 'release' | 'devlop' | 'trial'; // 跳转小程序版本 默认 release
+    extraData?: '' // 以JSON格式字符串向所需跳转的小程序传递数据
+  }
+]);
+```
+
 ## 答疑
 
 对常见的一些问题进行了[汇总](https://www.yuque.com/egm961/nmf9nm/llbg79)，如果这些问答无法解决你的疑惑，加钉钉群，按照提问模板进行提问
@@ -176,11 +241,34 @@ APP 的 App Store 地址，例： `https://itunes.apple.com/cn/app/id1383186862`
 
 APP 的应用宝地址，例：`'//a.app.qq.com/o/simple.jsp?pkgname=com.youku.shortvideo'`。如果不填写，则安卓微信中会直接跳转 fallback
 
+### useWxNative
+
+类型：`boolean`  
+必填: ❎  
+默认：true
+
+拉起其他 app，默认微信端使用微信原生标签，微信版本 `8.0.8` 以上版本支持使用
+
+### wxAppid
+
+类型：`string`  
+必填: ❎
+
+<p style="color: red">useWxNative: true, 微信内使用原生标签注册，必填。否则不需要</p>
+
+### weappId
+
+类型：`string`  
+必填: ❎
+
+全局微信小程序 appid
+
 ### isSupportWeibo
 
 类型: `boolean`  
-必填: ❎
+必填: ❎  
 默认值: false
+
 是否支持微博，默认不支持
 
 ### timeout
@@ -204,12 +292,14 @@ APP 的应用宝地址，例：`'//a.app.qq.com/o/simple.jsp?pkgname=com.youku.s
 必填: ❎
 
 ```js
-(status: 'pending' | 'failure') => void;
+(status: 'pending' | 'failure', wxTagFailure?) => void;
 ```
 
 埋点入口函数。运营同学可能会希望我们在唤端的时候做埋点，将你的埋点函数传递进来，不管唤端成功与否，它都会被执行。当然，你也可以将这个函数另作他用。
 
 这个回调函数会回执行两次，第一次是触发 open 方法，第二次是唤端失败，它有一个入参 status ，它有两个值 `pending` 和 `failure`，分别代表函数触发及唤端失败。
+
+在微信标签使用中，触发时机是唤端`wx.error|唤端失败`wxTagFailure 返回相应信息，唤端失败返回微信返回的失败信息。wx.error 返回`{errMsg: 'error'}`
 
 ### buildScheme
 
@@ -226,7 +316,7 @@ url scheme 自定义拼接函数，内置的 buildScheme 函数是按照 uri 规
 
 - path
 
-  类型: `string`
+  类型: `string`  
   必填: ✅
 
   需要打开的页面对应的值，URL Scheme 中的 path 部分，参照 [H5 唤起 APP 指南](https://suanmei.github.io/2018/08/23/h5_call_app/) 一文中的解释。
@@ -241,8 +331,8 @@ url scheme 自定义拼接函数，内置的 buildScheme 函数是按照 uri 规
   打开 APP 某个页面，它需要接收的参数。
 
 - callback
-  必填: ❎
 
+  必填: ❎  
   类型: `function`
 
   自定义唤端失败回调函数。传递 `callback` 会覆盖 _callapp-lib_ 库中默认的唤端失败处理逻辑。
@@ -265,6 +355,77 @@ url scheme 自定义拼接函数，内置的 buildScheme 函数是按照 uri 规
 ### generateUniversalLink
 
 生成 Universal Link，接收参数同 `generateScheme` 方法参数。
+
+### signup
+
+在微信环境下使用`微信原生标签`进行 app 跳转，其他环境下进行 dom 的点击事件绑定`open`方法
+[微信公众号满足条件](https://developers.weixin.qq.com/doc/oplatform/Mobile_App/WeChat_H5_Launch_APP.html)
+需要微信 jssdk [1.6.0](https://res.wx.qq.com/open/js/jweixin-1.6.0.js) 版本以上
+
+<span style="color: red">注意拉起 app：</span>
+
+1. wx 注册 config 需要绑定的公众号
+2. 域名需要开放平台绑定的域名
+3. 微信注册 config 需要添加`openTagList: ['wx-open-launch-app', 'wx-open-launch-weapp']`
+
+> 拉起小程序，仅需保证是安全域名
+
+- id
+
+  必填：✅
+
+  用于微信自定义标签插入,最好根据父级进行定位，如果跳转失败会给该元素绑定点击事件（lib.open）
+
+- height
+
+  必填：❎  
+  默认：40px
+
+  必须设置高度，无固定高度无法点击跳转
+
+> 其他参数同 open 方法
+
+<span style="color: red">注意拉起小程序：</span>
+
+- type
+
+  必填: ❎  
+  默认: 'app'
+
+  拉起小程序需要改成'minapp'
+
+  > 非微信环境，minapp 不会注册事件
+
+- appid
+
+  必填: ❎
+
+  所需跳转的小程序 appid，即小程序对应的以 wx 开头的 id, 不写使用 weappId
+
+- username
+
+  必填: ❎
+
+  所需跳转的小程序原始 id，即小程序对应的以 gh\_开头的 id（跳转时，有 appid 会优先使用 appid，没有 appid 才会使用 username）
+
+- wePath?: ''
+
+  必填: ❎
+
+  所需跳转的小程序内页面路径及参数
+
+- env
+
+  必填: ❎  
+  默认: 'release'
+
+  'release' | 'develop' | 'trial'
+
+- extraData
+
+  必填: ❎
+
+  默认传入 object, 会进行 encodeURIComponent 处理，以 JSON 格式字符串向所需跳转的小程序传递数据。小程序可在 App.onLaunch、App.onShow 等中获取；小游戏可在 wx.onAppShow、wx.getLaunchOptionsSync 等中获取（支持的微信版本：iOS 8.0.18 及以上、Android 8.0.19 及以上）
 
 ## 打赏
 
