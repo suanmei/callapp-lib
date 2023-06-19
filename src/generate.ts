@@ -1,4 +1,4 @@
-import { CallappConfig, CallappOptions, Intent, WeappConfig, WxTagOption } from './types';
+import { CallappConfig, CallappOptions, Intent, WeappConfig } from './types';
 
 // 根据 param 生成 queryString
 function generateQS(param?: Record<string, any>): string {
