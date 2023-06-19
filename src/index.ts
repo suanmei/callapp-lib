@@ -122,8 +122,8 @@ class CallApp {
     if (!config.id) {
       throw new Error('use dom you need id parameter to register');
     }
-    if (config.type === 'minapp' && !config.appid && !this.options.weappId) {
-      throw new Error('minapp need appid');
+    if (config.type === 'weapp' && !config.appid && !this.options.weappId) {
+      throw new Error('weapp need appid');
     }
     const dom = document.querySelector(`#${config.id}`);
     if (!dom) {
@@ -134,7 +134,7 @@ class CallApp {
       throw new Error(`the #${config.id} is not only`);
     }
     config.type = config.type ?? 'app';
-    if (config.type === 'minapp') {
+    if (config.type === 'weapp') {
       config.env = config.env ?? 'release';
       config.appid = config.appid ?? this.options.weappId;
     }
@@ -176,7 +176,7 @@ class CallApp {
 
     const tagType = {
       app: 'generateWxTag',
-      minapp: 'generateWeappTag',
+      weapp: 'generateWeappTag',
     } as const;
     wx.ready(() => {
       domList.forEach((obj) => {

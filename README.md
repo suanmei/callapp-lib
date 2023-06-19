@@ -103,8 +103,8 @@ lib.signup([
     }
   },
   {
-    id: 'open-minapp',
-    type: 'minapp', // 'app' | 'minapp' 默认'app'
+    id: 'open-weapp',
+    type: 'weapp', // 'app' | 'weapp' 默认'app'
     path: '',
     height?: '40px',
     appid?: '', // 所需跳转的小程序appid，即小程序对应的以wx开头的id, 不写使用weappId
@@ -392,9 +392,9 @@ url scheme 自定义拼接函数，内置的 buildScheme 函数是按照 uri 规
   必填: ❎  
   默认: 'app'
 
-  拉起小程序需要改成'minapp'
+  拉起小程序需要改成'weapp'
 
-  > 非微信环境，minapp 不会注册事件
+  > 非微信环境，weapp 不会注册事件
 
 - appid
 

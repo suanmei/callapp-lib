@@ -6,7 +6,7 @@ export interface CallappConfig<Params = Record<string, unknown>> {
 
 export interface WxTagOption {
   id: string;
-  type?: 'app' | 'minapp';
+  type?: 'app' | 'weapp';
   height?: string;
   btnText?: string;
 }
@@ -21,7 +21,7 @@ export interface WeappConfig extends WxTagOption {
 
 export interface DomListType {
   btn: HTMLElement;
-  type: 'app' | 'minapp';
+  type: 'app' | 'weapp';
   config: CallappConfig & WeappConfig;
   isRegister: boolean;
   isWxNativeReady: boolean;
