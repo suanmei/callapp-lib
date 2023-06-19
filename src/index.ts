@@ -4,23 +4,19 @@ import { evokeByLocation, evokeByTagA, evokeByIFrame, checkOpen } from './evoke'
 import {
   CallappConfig,
   CallappOptions,
-  WxTagFailure,
   WxTagErrorEvent,
   DomListType,
   WxTagOption,
   WeappConfig,
 } from './types';
+import { registeDom, registeWxApp, wxTagFailure } from './wx';
 
 class CallApp {
-  private readonly options: CallappOptions & { timeout: number };
-
-  private domList: DomListType[] = [];
-
-  private hasApp = false;
+  private readonly options: CallappOptions & { hasApp: boolean };
 
   // Create an instance of CallApp
   constructor(options: CallappOptions) {
-    const defaultOptions = { useWxNative: true, timeout: 2000 };
+    const defaultOptions = { useWxNative: true, timeout: 2000, hasApp: false };
     this.options = Object.assign(defaultOptions, options);
   }
 
@@ -44,12 +40,11 @@ class CallApp {
     return generate.generateYingYongBao(config, this.options);
   }
 
-  public generateWxTag(config: CallappConfig & WxTagOption): string {
-    return generate.generateWxTag(config, this.options);
-  }
-
-  public generateWeappTag(config: CallappConfig & WeappConfig): string {
-    return generate.generateWeappTag(config, this.options);
+  public generateWxOriginTag(
+    config: CallappConfig & WeappConfig,
+    type: WxTagOption['type']
+  ): string {
+    return generate.generateWxOriginTag(config, this.options, type);
   }
 
   checkOpen(failure: () => void): void {
@@ -85,13 +80,6 @@ class CallApp {
     });
   }
 
-  wxTagFailure(reason: WxTagFailure | undefined): void {
-    const { logFunc } = this.options;
-    if (typeof logFunc !== 'undefined') {
-      logFunc('failure', reason);
-    }
-  }
-
   signup(config: (CallappConfig & WeappConfig) | Array<CallappConfig & WeappConfig>): void {
     const { useWxNative, wxAppid } = this.options;
     if (Browser.isWechat && useWxNative && !wxAppid) {
@@ -100,111 +88,24 @@ class CallApp {
 
     const list = !Array.isArray(config) ? [config] : config;
     const domList: DomListType[] = [];
-    list.forEach((c) => this.registeDom(c, domList));
+    list.forEach((c) => registeDom(c, this.options, domList));
     // 注册微信打开app
-    this.registeWxApp(domList);
+    registeWxApp(domList, this.options, this.open.bind(this));
 
     if (!useWxNative || !window.wx) return;
 
     wx.error(() => {
-      this.wxTagFailure({
-        errMsg: 'wx register fail',
-      });
+      wxTagFailure(
+        {
+          errMsg: 'wx register fail',
+        },
+        this.options
+      );
     });
 
     document.addEventListener('WeixinOpenTagsError', (e: Event & WxTagErrorEvent) => {
       // 无法使用开放标签的错误原因，需回退兼容。仅无法使用开放标签，JS-SDK其他功能不受影响
-      this.wxTagFailure(e.detail);
-    });
-  }
-
-  registeDom(config: CallappConfig & WeappConfig, domList: DomListType[]): DomListType[] {
-    if (!config.id) {
-      throw new Error('use dom you need id parameter to register');
-    }
-    if (config.type === 'weapp' && !config.appid && !this.options.weappId) {
-      throw new Error('weapp need appid');
-    }
-    const dom = document.querySelector(`#${config.id}`);
-    if (!dom) {
-      throw new Error(`make sure the dom by #${config.id} is exists`);
-    }
-    const index = this.domList.findIndex((obj) => obj.config.id === config.id);
-    if (index !== -1) {
-      throw new Error(`the #${config.id} is not only`);
-    }
-    config.type = config.type ?? 'app';
-    if (config.type === 'weapp') {
-      config.env = config.env ?? 'release';
-      config.appid = config.appid ?? this.options.weappId;
-    }
-
-    const obj = {
-      btn: dom as HTMLElement,
-      type: config.type,
-      config,
-      isRegister: false,
-      isWxNativeReady: false,
-    };
-    domList.push(obj);
-    return domList;
-  }
-
-  // dom事件注册
-  bindClickEvent(obj: DomListType): void {
-    if (!obj.isRegister && obj.type === 'app') {
-      obj.btn.addEventListener('click', () => {
-        const notUseWxNative = Browser.isWechat && !this.options.useWxNative;
-        const wxNativeError = Browser.isWechat && !this.hasApp;
-        const ready = Browser.isWechat && this.options.useWxNative && obj.isWxNativeReady;
-        if (ready) return;
-        if (!Browser.isWechat || notUseWxNative || wxNativeError) {
-          this.open(obj.config);
-        }
-      });
-      obj.isRegister = true;
-    }
-  }
-
-  registeWxApp(domList: DomListType[]): void {
-    if (!Browser.isWechat) {
-      domList.forEach((obj) => {
-        this.bindClickEvent(obj);
-      });
-      return;
-    }
-
-    const tagType = {
-      app: 'generateWxTag',
-      weapp: 'generateWeappTag',
-    } as const;
-    wx.ready(() => {
-      domList.forEach((obj) => {
-        this.bindClickEvent(obj);
-        if (!this.options.useWxNative && obj.type === 'app') return;
-
-        const { btn, type } = obj;
-        btn.innerHTML = this[tagType[type]](obj.config);
-        const wxBtn = btn.firstChild as HTMLElement;
-
-        wxBtn.addEventListener('ready', () => {
-          obj.isWxNativeReady = true;
-        });
-        // e: Event & WxTagErrorEvent
-        wxBtn.addEventListener('launch', () => {
-          if (obj.type === 'app') {
-            this.hasApp = true;
-          }
-        });
-        wxBtn.addEventListener('error', (e: Event & WxTagErrorEvent) => {
-          // 如果微信打开失败，证明没有应用，在ios需要打开app store。不能跳转universal link
-          this.wxTagFailure(e.detail);
-          if (type === 'app') {
-            this.hasApp = false;
-            this.open(obj.config);
-          }
-        });
-      });
+      wxTagFailure(e.detail, this.options);
     });
   }
 
@@ -232,7 +133,7 @@ class CallApp {
       if (
         (Browser.isWechat && Browser.semverCompare(Browser.getWeChatVersion(), '7.0.5') === -1) ||
         (Browser.isWeibo && !isSupportWeibo) ||
-        (Browser.isWechat && this.options.useWxNative && !this.hasApp)
+        (Browser.isWechat && this.options.useWxNative && !this.options.hasApp)
       ) {
         evokeByLocation(appstore);
       } else if (Browser.getIOSVersion() < 9) {

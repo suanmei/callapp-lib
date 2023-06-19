@@ -94,51 +94,64 @@ function transformUnit(val: string) {
   return val;
 }
 
-// 生成微信tag
-export function generateWxTag(
-  config: CallappConfig & WxTagOption,
-  options: CallappOptions
-): string {
-  const { id, height = '40px', btnText = '立即打开' } = config;
-  const { wxAppid } = options;
-  const h = transformUnit(height);
-  return `<wx-open-launch-app id="launch_${id}" appid="${wxAppid}" extinfo="${buildScheme(
-    config,
-    options
-  )}" style="position:absolute;top:0;left:0;right:0;bottom:0;">
-            <script type="text/wxtag-template">
-              <style>.wx-btn{height: ${h};opacity: 0;}</style>
-              <div class="wx-btn">${btnText}</div>
-            </script>
-          </wx-open-launch-app>`;
+function setAttrs(ele: HTMLElement, attrs: Record<string, any>) {
+  Object.keys(attrs).forEach((key) => {
+    ele.setAttribute(key, attrs[key]);
+  });
 }
 
-// 生成微信小程序tag
-export function generateWeappTag(config: WeappConfig, options: CallappOptions): string {
-  const {
-    id,
-    height = '40px',
-    appid,
-    wePath,
-    username,
-    env,
-    extraData,
-    btnText = '打开小程序',
-  } = config;
-  const { weappId } = options;
-  if (!weappId && !appid) {
-    throw new Error('need weapp appid');
-  }
+// 生成微信原生标签
+export function generateWxOriginTag(
+  config: CallappConfig & WeappConfig,
+  options: CallappOptions,
+  type: WeappConfig['type'] = 'app'
+): string {
+  const tags = {
+    app: 'launch-app',
+    weapp: 'launch-weapp',
+  };
+  const { id, height = '40px', btnText = '立即打开' } = config;
   const h = transformUnit(height);
-  const extra =
-    extraData && (typeof extraData === 'string' ? extraData : encodeURIComponent(extraData));
-  return `<wx-open-launch-weapp id="weapp_${id}" appid="${
-    appid || weappId
-  }" path="${wePath}" username="${username}" env-version="${env}" extra-data="${extra}"
-    style="position:absolute;top:0;left:0;right:0;bottom:0;">
-      <script type="text/wxtag-template">
-        <style>.btn {height: ${h};opacity: 0;}</style>
-        <button class="btn">${btnText}</button>
-      </script>
-    </wx-open-launch-weapp>`;
+  const ele = document.createElement(`wx-open-${tags[type]}`);
+
+  if (type === 'app') {
+    const { wxAppid } = options;
+    if (!wxAppid) {
+      throw new Error('open app from wx wxAppid is needed');
+    }
+    setAttrs(ele, {
+      id: `launch_${id}`,
+      appid: wxAppid,
+      extinfo: buildScheme(config, options),
+    });
+  } else if (type === 'weapp') {
+    const { weappId } = options;
+    const {
+      appid = weappId,
+      wePath = 'pages/index',
+      username = '',
+      env = 'release',
+      extraData = '',
+    } = config;
+    if (!appid) {
+      throw new Error('need appid or weappId');
+    }
+
+    const extra =
+      extraData && (typeof extraData === 'string' ? extraData : encodeURIComponent(extraData));
+    setAttrs(ele, {
+      id: `weapp_${id}`,
+      appid,
+      path: wePath,
+      username,
+      'env-version': env,
+      'extra-data': extra,
+    });
+  }
+  ele.style.cssText = 'position:absolute;top:0;left:0;right:0;bottom:0;';
+  ele.innerHTML = `<script type="text/wxtag-template">
+                    <style>.wx-btn{height: ${h};opacity: 0;}</style>
+                    <div class="wx-btn">${btnText}</div>
+                  </script>`;
+  return ele.outerHTML;
 }

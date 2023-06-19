@@ -14,7 +14,7 @@ export interface WxTagOption {
 export interface WeappConfig extends WxTagOption {
   appid?: string;
   username?: string;
-  wePath?: string;
+  wePath: string;
   env?: 'release' | 'develop' | 'trial';
   extraData?: string;
 }
@@ -62,7 +62,7 @@ export interface CallappOptions {
   yingyongbao?: string;
   isSupportWeibo?: boolean;
   fallback: string;
-  timeout?: number;
+  timeout: number;
   logFunc?: (status: 'pending' | 'failure', wxTagFailure?: WxTagFailure) => void;
   buildScheme?: (config: CallappConfig, options: CallappOptions) => string;
 }
