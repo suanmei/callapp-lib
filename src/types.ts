@@ -14,15 +14,17 @@ export interface WxTagOption {
 export interface WeappConfig extends WxTagOption {
   appid?: string;
   username?: string;
-  wePath: string;
+  wePath?: string;
   env?: 'release' | 'develop' | 'trial';
   extraData?: string;
 }
 
+export type UnionConfig<T = Record<string, unknown>> = CallappConfig<T> & WeappConfig;
+
 export interface DomListType {
   btn: HTMLElement;
   type: 'app' | 'weapp';
-  config: CallappConfig & WeappConfig;
+  config: UnionConfig;
   isRegister: boolean;
   isWxNativeReady: boolean;
 }

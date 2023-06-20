@@ -4,7 +4,7 @@ import {
   CallappConfig,
   CallappOptions,
   DomListType,
-  WeappConfig,
+  UnionConfig,
   WxTagErrorEvent,
   WxTagFailure,
 } from './types';
@@ -80,7 +80,7 @@ export function registeWxApp(
 }
 
 export function registeDom(
-  config: CallappConfig & WeappConfig,
+  config: UnionConfig,
   options: CallappOptions,
   domList: DomListType[]
 ): DomListType[] {
@@ -89,6 +89,9 @@ export function registeDom(
   }
   if (config.type === 'weapp' && !config.appid && !options.weappId) {
     throw new Error('weapp need appid');
+  }
+  if (config.type === 'weapp' && !config.wePath) {
+    throw new Error('weapp need wePath');
   }
   const dom = document.querySelector(`#${config.id}`);
   if (!dom) {

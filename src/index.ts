@@ -7,7 +7,7 @@ import {
   WxTagErrorEvent,
   DomListType,
   WxTagOption,
-  WeappConfig,
+  UnionConfig,
 } from './types';
 import { registeDom, registeWxApp, wxTagFailure } from './wx';
 
@@ -40,10 +40,7 @@ class CallApp {
     return generate.generateYingYongBao(config, this.options);
   }
 
-  public generateWxOriginTag(
-    config: CallappConfig & WeappConfig,
-    type: WxTagOption['type']
-  ): string {
+  public generateWxOriginTag(config: UnionConfig, type: WxTagOption['type']): string {
     return generate.generateWxOriginTag(config, this.options, type);
   }
 
@@ -80,7 +77,7 @@ class CallApp {
     });
   }
 
-  signup(config: (CallappConfig & WeappConfig) | Array<CallappConfig & WeappConfig>): void {
+  signup(config: UnionConfig | UnionConfig[]): void {
     const { useWxNative, wxAppid } = this.options;
     if (Browser.isWechat && useWxNative && !wxAppid) {
       throw new Error('use wx-tag need wxAppid in the options');

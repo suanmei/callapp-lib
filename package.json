@@ -9,7 +9,9 @@
   "directories": {
     "dist": "dist"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "lint-eslint": "eslint --cache --ext .ts ./src",
     "check-types": "tsc --noEmit",
@@ -27,7 +29,16 @@
     "type": "git",
     "url": "git+https://github.com/suanmei/callapp-lib.git"
   },
-  "keywords": ["rollup", "callapp", "schema", "scheme", "universalLink", "intent", "native", "h5"],
+  "keywords": [
+    "rollup",
+    "callapp",
+    "schema",
+    "scheme",
+    "universalLink",
+    "intent",
+    "native",
+    "h5"
+  ],
   "author": {
     "name": "suanmei",
     "email": "code_lee@sina.com",

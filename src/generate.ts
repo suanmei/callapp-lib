@@ -1,4 +1,4 @@
-import { CallappConfig, CallappOptions, Intent, WeappConfig } from './types';
+import { CallappConfig, CallappOptions, Intent, UnionConfig, WeappConfig } from './types';
 
 // 根据 param 生成 queryString
 function generateQS(param?: Record<string, any>): string {
@@ -102,7 +102,7 @@ function setAttrs(ele: HTMLElement, attrs: Record<string, any>) {
 
 // 生成微信原生标签
 export function generateWxOriginTag(
-  config: CallappConfig & WeappConfig,
+  config: UnionConfig,
   options: CallappOptions,
   type: WeappConfig['type'] = 'app'
 ): string {
@@ -126,13 +126,7 @@ export function generateWxOriginTag(
     });
   } else if (type === 'weapp') {
     const { weappId } = options;
-    const {
-      appid = weappId,
-      wePath = 'pages/index',
-      username = '',
-      env = 'release',
-      extraData = '',
-    } = config;
+    const { appid = weappId, wePath, username = '', env = 'release', extraData = '' } = config;
     if (!appid) {
       throw new Error('need appid or weappId');
     }
