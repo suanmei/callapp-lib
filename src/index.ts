@@ -1,14 +1,22 @@
 import * as Browser from './browser';
 import * as generate from './generate';
 import { evokeByLocation, evokeByTagA, evokeByIFrame, checkOpen } from './evoke';
-import { CallappConfig, CallappOptions } from './types';
+import {
+  CallappConfig,
+  CallappOptions,
+  WxTagErrorEvent,
+  DomListType,
+  WxTagOption,
+  UnionConfig,
+} from './types';
+import { registeDom, registeWxApp, wxTagFailure } from './wx';
 
 class CallApp {
-  private readonly options: CallappOptions & { timeout: number };
+  private readonly options: CallappOptions & { hasApp: boolean };
 
   // Create an instance of CallApp
   constructor(options: CallappOptions) {
-    const defaultOptions = { timeout: 2000 };
+    const defaultOptions = { useWxNative: true, timeout: 2000, hasApp: false };
     this.options = Object.assign(defaultOptions, options);
   }
 
@@ -30,6 +38,10 @@ class CallApp {
 
   public generateYingYongBao(config: CallappConfig): string {
     return generate.generateYingYongBao(config, this.options);
+  }
+
+  public generateWxOriginTag(config: UnionConfig, type: WxTagOption['type']): string {
+    return generate.generateWxOriginTag(config, this.options, type);
   }
 
   checkOpen(failure: () => void): void {
@@ -65,6 +77,35 @@ class CallApp {
     });
   }
 
+  signup(config: UnionConfig | UnionConfig[]): void {
+    const { useWxNative, wxAppid } = this.options;
+    if (Browser.isWechat && useWxNative && !wxAppid) {
+      throw new Error('use wx-tag need wxAppid in the options');
+    }
+
+    const list = !Array.isArray(config) ? [config] : config;
+    const domList: DomListType[] = [];
+    list.forEach((c) => registeDom(c, this.options, domList));
+    // 注册微信打开app
+    registeWxApp(domList, this.options, this.open.bind(this));
+
+    if (!useWxNative || !window.wx) return;
+
+    wx.error(() => {
+      wxTagFailure(
+        {
+          errMsg: 'wx register fail',
+        },
+        this.options
+      );
+    });
+
+    document.addEventListener('WeixinOpenTagsError', (e: Event & WxTagErrorEvent) => {
+      // 无法使用开放标签的错误原因，需回退兼容。仅无法使用开放标签，JS-SDK其他功能不受影响
+      wxTagFailure(e.detail, this.options);
+    });
+  }
+
   /**
    * 唤起客户端
    * 根据不同 browser 执行不同唤端策略
@@ -79,15 +120,17 @@ class CallApp {
     if (typeof logFunc !== 'undefined') {
       logFunc('pending');
     }
+
     const isSupportWeibo = !!this.options.isSupportWeibo;
-    if (Browser.isIos) {
+    if (Browser.isIos || Browser.isIpad) {
       // ios qq 禁止了 universalLink 唤起app，安卓不受影响 - 18年12月23日
       // ios qq 浏览器禁止了 universalLink - 19年5月1日
       // ios 微信自 7.0.5 版本放开了 Universal Link 的限制
       // ios 微博禁止了 universalLink
       if (
         (Browser.isWechat && Browser.semverCompare(Browser.getWeChatVersion(), '7.0.5') === -1) ||
-        (Browser.isWeibo && !isSupportWeibo)
+        (Browser.isWeibo && !isSupportWeibo) ||
+        (Browser.isWechat && this.options.useWxNative && !this.options.hasApp)
       ) {
         evokeByLocation(appstore);
       } else if (Browser.getIOSVersion() < 9) {
@@ -111,7 +154,12 @@ class CallApp {
         evokeByLocation(schemeURL);
         checkOpenFall = this.fallToFbUrl;
       }
-    } else if (Browser.isWechat || Browser.isBaidu || (Browser.isWeibo && !isSupportWeibo) || Browser.isQzone) {
+    } else if (
+      Browser.isWechat ||
+      Browser.isBaidu ||
+      (Browser.isWeibo && !isSupportWeibo) ||
+      Browser.isQzone
+    ) {
       evokeByLocation(this.options.fallback);
     } else {
       evokeByIFrame(schemeURL);
