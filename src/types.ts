@@ -29,7 +29,7 @@ export interface DomListType {
   isWxNativeReady: boolean;
 }
 
-export interface WxTagErrorEvent {
+export class WxTagErrorEvent extends Event {
   detail?: WxTagFailure;
 }
 

@@ -67,7 +67,7 @@ export function registeWxApp(
           options.hasApp = true;
         }
       });
-      wxBtn.addEventListener('error', (e: Event & WxTagErrorEvent) => {
+      wxBtn.addEventListener('error', (e: WxTagErrorEvent) => {
         // 如果微信打开失败，证明没有应用，在ios需要打开app store。不能跳转universal link
         wxTagFailure(e.detail, options);
         if (type === 'app') {
