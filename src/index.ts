@@ -111,7 +111,12 @@ class CallApp {
         evokeByLocation(schemeURL);
         checkOpenFall = this.fallToFbUrl;
       }
-    } else if (Browser.isWechat || Browser.isBaidu || (Browser.isWeibo && !isSupportWeibo) || Browser.isQzone) {
+    } else if (
+      Browser.isWechat ||
+      Browser.isBaidu ||
+      (Browser.isWeibo && !isSupportWeibo) ||
+      Browser.isQzone
+    ) {
       evokeByLocation(this.options.fallback);
     } else {
       evokeByIFrame(schemeURL);
