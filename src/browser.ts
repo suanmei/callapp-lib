@@ -42,7 +42,9 @@ export const isAndroid = /android/i.test(ua);
 
 export const isIos = /iphone|ipad|ipod/i.test(ua);
 
-export const isWechat = /micromessenger\/([\d.]+)/i.test(ua);
+export const isWxwork = /wxwork\/([\d.]+)/i.test(ua);
+
+export const isWechat = !isWxwork && /micromessenger\/([\d.]+)/i.test(ua);
 
 export const isWeibo = /(weibo).*weibo__([\d.]+)/i.test(ua);
 
