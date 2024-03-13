@@ -22,7 +22,7 @@ export interface CallappOptions {
   };
   appstore: string;
   yingyongbao?: string;
-  isSupportWeibo?:boolean;
+  isSupportWeibo?: boolean;
   fallback: string;
   timeout?: number;
   logFunc?: (status: 'pending' | 'failure') => void;
